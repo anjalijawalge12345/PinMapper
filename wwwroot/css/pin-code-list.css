@@ -1,0 +1,196 @@
+/* .pin-code-list{
+
+.header-title{
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+}}
+ */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* .pin-code-list {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+} */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification_image {
+    width: 24px;
+    cursor: pointer;
+}
+
+.user-info img {
+    width: 40px;
+    border-radius: 50%;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-buttons {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.filter-buttons button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    background: #e0e0e0;
+    border-radius: 5px;
+}
+
+.filter-buttons button.active {
+    background: #007bff;
+    color: white;
+}
+/* Change checkbox background to black when row is selected */
+.ag-theme-alpine {
+    --ag-checkbox-checked-color: black !important;
+    --ag-selected-row-background-color:transparent !important;
+}
+
+.ag-header {
+    background-color: #D8E0E7 !important;
+}
+/* .ag-row-selected .ag-cell {
+    background-color: black !important;
+    color: white !important;
+} */
+
+.ag-cell {
+    color: #74828F !important;
+}
+.ag-theme-alpine input[type="checkbox"]:checked {
+    accent-color: black !important;
+}
+
+
+.edit-btn {
+    background: none;
+    border: none;
+    text-decoration: dashed;
+    border-bottom: 1px solid black;
+    padding: 0;
+    cursor: pointer;
+    color: black; 
+}
+
+
+.ag-paging-panel {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+.ag-paging-row-summary-panel {
+    display: none !important;
+}
+
+.ag-paging-button[ref="btFirst"], 
+.ag-paging-button[ref="btLast"] {
+    display: none !important;
+}
+
+.ag-theme-alpine .ag-row.ag-row-selected {
+    background-color: transparent !important;
+}   
+
+
+.ag-body-horizontal-scroll-viewport{
+    height: 6px !important;
+    min-height: 6px !important;
+}
+
+.ag-horizontal-right-spacer{
+   height: 6px !important;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Colors for different statuses */
+.status-sent {
+    background-color: #EDE7FB; 
+    color: #222222;
+}
+
+.status-rejected {
+    background-color: #F8D4D3; 
+    color: #222222;
+}
+
+.status-approved {
+    background-color: #DAF4AA;
+    color: #222222;
+}
+
+.ag-header-cell-text{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 32px;
+    color:  #464646;
+}
+
+.search-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0;
+    }
+
+    #searchBox {
+        width: 276px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    #editBtn {
+        padding: 8px 15px;
+        border: none;
+        background-color: #333335;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #editBtn:hover {
+        background-color: #218838;
+    }

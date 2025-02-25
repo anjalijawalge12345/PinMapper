@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="~/css/dashboard.css">
+    <link rel="stylesheet" href="~/css/sidebar.css">
+    <link rel="stylesheet" href="~/css/index.css">
+    <link rel="stylesheet" href="~/css/pin-code-list.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/styles/ag-grid.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/styles/ag-theme-alpine.css">
+</head>
+<body>
+    <div class="body-container">
+    <div class="sidebar">
+			<div class="logo">
+				<img
+					src="../assets/images/Kirloskar_Group_Logo.svg-removebg-preview.png"
+					class="logo_image" />
+				<img src="../assets//images/Kirloskar_Group_Logo.svg (1).png" />
+				<hr class="hr_line" />
+			</div>
+            
+   <ul class="menu">
+    <li class="menu-link @(ViewData["ActivePage"] as string == "Dashboard" ? "active" : "")">
+        <i class="ri-dashboard-fill"></i><i class="ri-dashboard-line"></i>
+        <a asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
+    </li>
+    <li class="menu-link @(ViewData["ActivePage"] as string == "PincodeList" ? "active" : "")">
+        <i class="ri-file-edit-fill"></i><i class="ri-file-edit-line"></i>
+        <a asp-area="" asp-controller="Home" asp-action="PincodeList">PIN Code List</a>
+    </li>
+    <li class="menu-link @(ViewData["ActivePage"] as string == "Workflow" ? "active" : "")">
+        <i class="ri-verified-badge-fill"></i><i class="ri-verified-badge-line"></i>
+        <a asp-area="" asp-controller="Home" asp-action="Workflow">Workflow</a>
+    </li>
+    <li class="menu-link @(ViewData["ActivePage"] as string == "NotificationEmail" ? "active" : "")">
+        <i class="ri-mail-unread-fill"></i><i class="ri-mail-unread-line"></i>
+        <a asp-area="" asp-controller="Home" asp-action="NotificationEmail">Notification Email</a>
+    </li>
+    <li class="menu-link @(ViewData["ActivePage"] as string == "UserManagement" ? "active" : "")">
+        <i class="ri-group-fill"></i><i class="ri-group-line"></i>
+        <a asp-area="" asp-controller="Home" asp-action="UserManagement">User Management</a>
+    </li>
+    <li class="menu-link @(ViewData["ActivePage"] as string == "MasterData" ? "active" : "")">
+        <i class="ri-database-2-fill"></i><i class="ri-database-2-line"></i>
+        <a asp-area="" asp-controller="Home" asp-action="MasterData">Master Data</a>
+    </li>
+</ul>
+	
+    </div>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    </div>
+
+    @* <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - PinMapper.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer> *@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
+    <script src="~/js/sidebar.js"></script>
+    <script src="~/js/dashboard.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

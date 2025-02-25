@@ -1,0 +1,32 @@
+<div class="pin-code-list">
+        <header>
+            <h2 class="header-title">PIN Code List</h2>
+            <div class="header-right">
+                <img src="notification.png" alt="notification" class="notification_image">
+                <div class="user-info">
+                    <img src="user.png" alt="user">
+                    <div class="user-details">
+                        <span class="username">Ranjan PM</span>
+                        <small class="user-designation">Super Admin</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="filter-buttons">
+            <button class="active">All (19000)</button>
+            <button>New (1500)</button>
+            <button>No Change (14000)</button>
+            <button>Modified (3000)</button>
+            <button>Deleted (500)</button>
+        </div>
+
+         <div class="search-container">
+        <input type="text" id="searchBox" placeholder="&#xf002; Search PIN Code..." />
+        <button id="editBtn">Edit Selected</button>
+    </div>
+        <div id="myGrid" class="ag-theme-alpine"></div>
+       
+    </div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
+    <script src="../js/pin-code-list.js"></script>

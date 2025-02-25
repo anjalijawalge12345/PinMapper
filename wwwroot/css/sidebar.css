@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container{
+   flex-grow: 1; /* Ensures it takes the remaining space */
+    margin-left: 250px; /* Same as sidebar width to avoid overlap */
+    padding: 20px; /* Add some spacing */
+    width: calc(100% - 250px);
+    overflow-x: auto; /* Prevents horizontal overflow */
+}
+
+/* .sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333335;
+    color: white;
+    position: fixed;
+    padding: 20px 0;
+} */
+.sidebar {
+    width: 250px; /* Adjust as per your design */
+    background-color: #2c3e50; /* Sidebar background color */
+    color: white;
+    height: 100vh;
+    position: fixed; /* Keeps sidebar fixed */
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+.logo {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+        display: flex
+;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo p {
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.menu-link a{
+     padding: 12px 17px;
+    text-decoration: none;
+    color: white;   
+}
+
+.menu li {
+   padding-left: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+ .menu li.active {
+    /* background-color: #a3c100; */
+    color: #E0F049;
+    border-left: 4px solid #E0F049;
+}
+
+ .menu-link.active a {
+    color: #E0F049 !important;
+}
+
+.menu-link.active{
+     color: #E0F049;
+}
+
+.menu li i {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+.menu li i[class*="-line"] {
+    display: inline;
+}
+.menu li i[class*="-fill"] {
+    display: none;
+}
+
+/* When Active, Show Filled Icon */
+.menu li.active i[class*="-fill"] {
+    display: inline;
+}
+.menu li.active i[class*="-line"] {
+    display: none;
+}
+.logo_image{
+    height: 45px;
+    width: 67.5px;
+}
+
+.hr_line{
+    width: 87%;
+    border-top: 0px solid #737373;
+}

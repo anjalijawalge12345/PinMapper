@@ -1,0 +1,71 @@
+<div class="dashboard">
+        <header>
+    <h2 class="dashboard_title">Dashboard</h2>
+    <div class="header-right">
+        <img src="../assets/images/bell with badge.png" alt="notification" class="notification_image">
+        <div class="user-info">
+            <img src="../assets/images/Ellipse 269.png" alt="user">
+            <div class="user-details">
+                <span class="username">Ranjan PM</span>
+                <small class="user-designation">Super Admin</small>
+            </div>
+            <!-- Dropdown Menu -->
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown()"><i class="ri-arrow-drop-down-line"></i></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="filters">
+            <select id="state"><option>Select State</option></select>
+            <select id="district"><option>Select District</option></select>
+            <select id="tehsil"><option>Select Tehsil</option></select>
+            <div class="buttons">
+            <button id="reset">Reset</button>
+            <button id="apply">Apply</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">01</h1><h4 class="card-subtitle">Country</h4></div> <img src="../assets//images/dashboard/image1.png" class="card-image"></div>
+            
+            
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">28</h1><h4 class="card-subtitle">Total States</h4></div><img src="../assets//images/dashboard/image2.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">400</h1><h4 class="card-subtitle">District</h4></div><img src="../assets//images/dashboard/image3.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">200</h1><h4 class="card-subtitle">Tehsil</h4></div><img src="../assets//images/dashboard/image4.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">19,000</h1><h4 class="card-subtitle">Total PIN Codes</h4></div><img src="../assets//images/dashboard/image5.png" class="card-image"></div>
+        </div>
+
+        <div class="charts">
+            <div class="chart-container">
+                <div class="charts-header-container">
+                <h3 class="charts-header">PIN Code Data Statistics</h3>
+                <h4 class="charts-subtitle">View all</h4>
+                </div>
+                <!-- <div class="chart1"> -->
+                    <canvas id="pinChart"></canvas>
+                    
+                <!-- </div> -->
+            </div>
+            <div class="chart-container">
+                <h3 class="charts-header">Workflow Summary</h3>
+                <canvas id="workflowChart"></canvas>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <h3>Pin Code Changes</h3>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="../js/dashboard.js" defer></script>
