@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
             const columnDefs = [
                  {
             headerName: "",
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cellStyle: { display: "flex", alignItems: "center" }
         },
         { headerName: "Country", field: "country", sortable: true, filter: true,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" }, cellRenderer: function (params) {
-                return `<img src="wwwroot/Ellipse 270.png" width="20" height="15" style="margin-right: 5px;"> ${params.value}`;
+                return `<img src="wwwroot/images/india.png" width="20" height="30" style="margin-right: 5px;"> ${params.value}`;
             } },
         { headerName: "Zone", field: "zone", sortable: true, filter: true,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" } },
         { headerName: "Sub Zone", field: "subZone", sortable: true, filter: true ,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" }},
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
             width:90,
             cellStyle: { display: "flex", alignItems: "center" },
             cellRenderer: function() {
-                return `<button class="edit-btn"> Edit</button>`;
+                return `<button class="edit-btn"><i class="ri-pencil-line"></i> Edit</button>`;
             }
         }
     ];
@@ -139,4 +140,17 @@ const rowData = [
             }
         }, 100);
     }
+
+        document.querySelectorAll(".filter-buttons button").forEach(button => {
+        button.addEventListener("click", function () {
+            // Remove active class from all buttons
+            document.querySelector(".filter-buttons .active")?.classList.remove("active");
+
+            // Add active class to clicked button
+            this.classList.add("active");
+
+            // Filter grid data based on button clicked
+            filterGrid(this.innerText.split(" ")[0]); // Extract status from button text
+        });
+    });
         });

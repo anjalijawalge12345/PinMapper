@@ -1,4 +1,5 @@
 <div class="pin-code-list">
+    <div class="tabs-container">
         <header>
             <h2 class="header-title">PIN Code List</h2>
             <div class="header-right">
@@ -12,21 +13,99 @@
                 </div>
             </div>
         </header>
+        
         <div class="filter-buttons">
-            <button class="active">All (19000)</button>
-            <button>New (1500)</button>
-            <button>No Change (14000)</button>
-            <button>Modified (3000)</button>
-            <button>Deleted (500)</button>
+            <button class="active">All <span>(19000)</span></button>
+            <button class="new-tab"><i class="ri-gemini-fill"></i>New <span>(1500)</span></button>
+            <button>No Change <span>(14000)</span></button>
+            <button>Modified <span>(3000)</span></button>
+            <button>Deleted <span>(500)</span></button>
         </div>
 
          <div class="search-container">
-        <input type="text" id="searchBox" placeholder="&#xf002; Search PIN Code..." />
-        <button id="editBtn">Edit Selected</button>
+        <input type="text" id="searchBox" placeholder="&#xF0D1; Search PIN Code..." />
+        <button id="editBtn"><i class="ri-pencil-line"></i>Edit Selected</button>
     </div>
+     <div id="side" class="side">
+    <div class="sidebar-header">
+        <div class="header-container">
+        <h3 class="siderbar-heading">Edit PIN Code</h3>
+        <button id="closeSidebar">&times;</button>
+        </div>
+        <p class="sidebar-subtitle">Updating details will send request to the Checker</p>
+        
+    </div>
+    <div class="sidebar-content">
+        <div class="form">
+            <div class="row">
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" value="India" disabled>
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" value="Maharashtra" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>District</label>
+                    <input type="text" value="Pune" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Tehsil/Taluka</label>
+                    <input type="text" value="Haveli" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>PIN Code</label>
+                    <input type="text" value="411045" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Zone</label>
+                    <select>
+                        <option>W21 - Maharashtra & Goa</option>
+                        <option>W22 - Gujarat</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Sub-Zone</label>
+                    <select>
+                        <option>Loreal</option>
+                        <option>Unilever</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>RO</label>
+                    <select>
+                        <option>ABC Regional Office</option>
+                        <option>XYZ Regional Office</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>District Code</label>
+                <select>
+                    <option>MH.PU</option>
+                    <option>MH.MU</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="footer"> <button>Cancel</button><button>Save</button></div>
+</div>
         <div id="myGrid" class="ag-theme-alpine"></div>
        
     </div>
+    </div>
+   
    
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
     <script src="../js/pin-code-list.js"></script>

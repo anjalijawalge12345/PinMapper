@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PinMapper.Web.Models;
+using PinMapper.Web.ViewModels;
 
 namespace PinMapper.Web.Controllers;
 
@@ -27,16 +28,26 @@ public class HomeController : Controller
     public IActionResult Dashboard()
     {
          ViewData["ActivePage"] = "Dashboard";
-    return View();
+
+        var model = new DashboardViewModel()
+        {
+            Countries = 10,
+            States = 280,
+            Districts = 400,
+            Tehsils = 200,
+            Pins = 19100
+        };
+
+        return View(model);
     }
     public IActionResult PincodeList()
     {
            ViewData["ActivePage"] = "PincodeList";
     return View();
     }
-    public IActionResult NotificationEmail()
+    public IActionResult Login()
     {
-         ViewData["ActivePage"] = "NotificationEmail";
+         ViewData["ActivePage"] = "Login";
     return View();
     }
 

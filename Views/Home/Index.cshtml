@@ -1,8 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@{     Layout = null; }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" /> 
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" asp-append-version="true" />
+
+<div class="bg">
+    <div class="login-container">
+        <div class="containerr">
+  <div class="logo">
+        <img src="~/images/KBL LOGO_Wht.png" class="logo-image" alt="Logo" />
+    </div>
+    <div class="login-header">Welcome Back!</div>
+    <div class="login-subtext">Enter your Credentials to access your account</div>
+    <div class="input-button-container">
+    <div class="input-group">
+        <i class="ri-mail-fill"></i>
+            <input type="email" name="email" class="login-input" placeholder="Enter your email" autocomplete="off" required />
+        </div>
+          <div class="enter-otp-section" id="otpSection" style="display: none;">
+        <div class="enter-otp-title">Enter OTP</div>
+        <div class="otp-container">
+            <input type="text" class="otp-input" maxlength="1" />
+            <input type="text" class="otp-input" maxlength="1" />
+            <input type="text" class="otp-input" maxlength="1" />
+            <input type="text" class="otp-input" maxlength="1" />
+            <input type="text" class="otp-input" maxlength="1" />
+            <input type="text" class="otp-input" maxlength="1" />
+        </div>
+        </div>
+        <button class="otp-button" id="sendOtpBtn" disabled>Send OTP</button>
+        </div>
+        </div>
+      
+    </div>
 </div>
+
+<script src="~/js/index.js"></script>

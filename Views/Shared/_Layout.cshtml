@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/sidebar.css">
     <link rel="stylesheet" href="~/css/index.css">
     <link rel="stylesheet" href="~/css/pin-code-list.css" />
+        <link rel="stylesheet" href="~/css/login.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/styles/ag-grid.css">
@@ -15,6 +16,7 @@
 </head>
 <body>
     <div class="body-container">
+        
     <div class="sidebar">
 			<div class="logo">
 				<img
@@ -37,9 +39,9 @@
         <i class="ri-verified-badge-fill"></i><i class="ri-verified-badge-line"></i>
         <a asp-area="" asp-controller="Home" asp-action="Workflow">Workflow</a>
     </li>
-    <li class="menu-link @(ViewData["ActivePage"] as string == "NotificationEmail" ? "active" : "")">
+    <li class="menu-link @(ViewData["ActivePage"] as string == "Login" ? "active" : "")">
         <i class="ri-mail-unread-fill"></i><i class="ri-mail-unread-line"></i>
-        <a asp-area="" asp-controller="Home" asp-action="NotificationEmail">Notification Email</a>
+        <a asp-area="" asp-controller="Home" asp-action="Login">Notification Email</a>
     </li>
     <li class="menu-link @(ViewData["ActivePage"] as string == "UserManagement" ? "active" : "")">
         <i class="ri-group-fill"></i><i class="ri-group-line"></i>

@@ -1,3 +1,5 @@
+@model PinMapper.Web.ViewModels.DashboardViewModel
+
 <div class="dashboard">
         <header>
     <h2 class="dashboard_title">Dashboard</h2>
@@ -34,13 +36,13 @@
 
         <div class="stats">
             
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">01</h1><h4 class="card-subtitle">Country</h4></div> <img src="../assets//images/dashboard/image1.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Countries</h1><h4 class="card-subtitle">Country</h4></div> <img src="../assets//images/dashboard/image1.png" class="card-image"></div>
             
             
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">28</h1><h4 class="card-subtitle">Total States</h4></div><img src="../assets//images/dashboard/image2.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">400</h1><h4 class="card-subtitle">District</h4></div><img src="../assets//images/dashboard/image3.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">200</h1><h4 class="card-subtitle">Tehsil</h4></div><img src="../assets//images/dashboard/image4.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">19,000</h1><h4 class="card-subtitle">Total PIN Codes</h4></div><img src="../assets//images/dashboard/image5.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.States</h1><h4 class="card-subtitle">Total States</h4></div><img src="../assets//images/dashboard/image2.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Districts</h1><h4 class="card-subtitle">District</h4></div><img src="../assets//images/dashboard/image3.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Tehsils</h1><h4 class="card-subtitle">Tehsil</h4></div><img src="../assets//images/dashboard/image4.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Pins</h1><h4 class="card-subtitle">Total PIN Codes</h4></div><img src="../assets//images/dashboard/image5.png" class="card-image"></div>
         </div>
 
         <div class="charts">
