@@ -119,6 +119,8 @@
         </div>
 
         <div class="map-container">
+            <h3>Pin Code Changes</h3>
+            <div id="map"></div>
         </div>
     </div>
 
@@ -126,3 +128,27 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="../js/dashboard.js" defer></script>
       <script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 5,
+            center: { lat: 22.9734, lng: 78.6569 } // Center of India
+        });
+
+        var locations = @Html.Raw(Json.Serialize(Model.PincodeLocations)); // Make sure this list exists in ViewModel
+
+        locations.forEach(function (location) {
+            new google.maps.Marker({
+                position: { lat: location.latitude, lng: location.longitude },
+                map: map,
+                title: "Pincode: " + location.pincode + "\n" + location.information
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        initMap();
+    });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.GoogleMapsApiKey"></script>
