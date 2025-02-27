@@ -25,9 +25,44 @@
 </header>
 
         <div class="filters">
-            <select id="state"><option>Select State</option></select>
-            <select id="district"><option>Select District</option></select>
-            <select id="tehsil"><option>Select Tehsil</option></select>
+            <select id="state">
+        <option value="">Select State</option>
+        <option value="maharashtra">Maharashtra</option>
+        <option value="uttar_pradesh">Uttar Pradesh</option>
+    </select>
+            <select id="district">
+        <option value="">Select District</option>
+        
+            <option value="pune">Pune</option>
+            <option value="mumbai">Mumbai</option>
+     
+      
+            <option value="lucknow">Lucknow</option>
+            <option value="varanasi">Varanasi</option>
+       
+    </select>
+         <select id="tehsil">
+        <option value="">Select Tehsil</option>
+    
+            <option value="haveli">Haveli</option>
+            <option value="mulshi">Mulshi</option>
+            <option value="bhor">Bhor</option>
+ 
+    
+            <option value="andheri">Andheri</option>
+            <option value="bandra">Bandra</option>
+            <option value="dadar">Dadar</option>
+      
+            <option value="sadar">Sadar</option>
+            <option value="mohanlalganj">Mohanlalganj</option>
+            <option value="bakshi">Bakshi Ka Talab</option>
+      
+            <option value="kashi">Kashi</option>
+            <option value="ramnagar">Ramnagar</option>
+            <option value="sarnath">Sarnath</option>
+      
+    </select>
+
             <div class="buttons">
             <button id="reset">Reset</button>
             <button id="apply">Apply</button>
@@ -36,16 +71,16 @@
 
         <div class="stats">
             
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Countries</h1><h4 class="card-subtitle">Country</h4></div> <img src="../assets//images/dashboard/image1.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Countries</h1><h4 class="card-subtitle">Country</h4></div> <img src="~/images/dashboard/image1.png" class="card-image"></div>
             
             
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.States</h1><h4 class="card-subtitle">Total States</h4></div><img src="../assets//images/dashboard/image2.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Districts</h1><h4 class="card-subtitle">District</h4></div><img src="../assets//images/dashboard/image3.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Tehsils</h1><h4 class="card-subtitle">Tehsil</h4></div><img src="../assets//images/dashboard/image4.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Pins</h1><h4 class="card-subtitle">Total PIN Codes</h4></div><img src="../assets//images/dashboard/image5.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.States</h1><h4 class="card-subtitle">Total States</h4></div><img src="~/images/dashboard/image2.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Districts</h1><h4 class="card-subtitle">District</h4></div><img src="~/images/dashboard/image3.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Tehsils</h1><h4 class="card-subtitle">Tehsil</h4></div><img src="~/images/dashboard/image4.png" class="card-image"></div>
+            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Pins</h1><h4 class="card-subtitle">Total PIN Codes</h4></div><img src="~/images/dashboard/image5.png" class="card-image"></div>
         </div>
 
-        <div class="charts">
+        @* <div class="charts">
             <div class="chart-container">
                 <div class="charts-header-container">
                 <h3 class="charts-header">PIN Code Data Statistics</h3>
@@ -60,14 +95,34 @@
                 <h3 class="charts-header">Workflow Summary</h3>
                 <canvas id="workflowChart"></canvas>
             </div>
+        </div> *@
+
+        <div class="charts">
+            <!-- PIN Code Data Statistics -->
+            <div class="chart-container">
+                
+                <h3 class="charts-header">PIN Code Data Statistics</h3>
+                <div class="header-flex">
+                <svg id="pinChart" width="300" height="300"></svg>
+                <div class="legend" id="pinLegend"></div>
+                </div>
+            </div>
+
+            <!-- Workflow Summary -->
+            <div class="chart-container">
+                <h3 class="charts-header">Workflow Summary</h3>
+                  <div class="header-flex">
+                <svg id="workflowChart" width="300" height="300"></svg>
+                <div class="legend" id="workflowLegend"></div>
+                </div>
+            </div>
         </div>
 
         <div class="map-container">
-            <h3>Pin Code Changes</h3>
-            <div id="map"></div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="../js/dashboard.js" defer></script>
+      <script src="https://d3js.org/d3.v7.min.js"></script>
