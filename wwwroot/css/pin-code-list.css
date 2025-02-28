@@ -1,20 +1,8 @@
-/* .pin-code-list{
-
-.header-title{
-    font-size: 20px;
-    font-weight: 600;
-    color: #000000;
-}}
- */
 
 
-/* .pin-code-list {
-    width: 90%;
-    margin: 20px auto;
+.pin-code-list{
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-} */
+}
 
 header {
     display: flex;
@@ -530,11 +518,11 @@ header {
             background-color: white;
         }
 
-        .row {
+        /* .row {
             display: flex;
             justify-content: space-between;
             gap: 15px;
-        }
+        } */
         input:disabled {
     border: none;
     margin-bottom: 0;

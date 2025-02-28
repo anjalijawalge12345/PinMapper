@@ -45,9 +45,9 @@ public class HomeController : Controller
            ViewData["ActivePage"] = "PincodeList";
     return View();
     }
-    public IActionResult Login()
+    public IActionResult NotificationEmail()
     {
-         ViewData["ActivePage"] = "Login";
+         ViewData["ActivePage"] = "NotificationEmail";
     return View();
     }
 

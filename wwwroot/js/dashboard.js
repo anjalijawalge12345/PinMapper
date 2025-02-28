@@ -1,5 +1,5 @@
 function createDoughnutChart(svgId, legendId, data, labels, colors) {
-    const width = 220, height = 220, radius = Math.min(width, height) / 2;
+    const width = 280, height = 280, radius = Math.min(width, height) / 2;
 
     // Tooltip
     const tooltip = d3.select("body")
@@ -22,7 +22,7 @@ function createDoughnutChart(svgId, legendId, data, labels, colors) {
 
     // Ensure pie values are correctly linked to data indexes
     const pie = d3.pie().value((d, i) => data[i])(data);
-    const arc = d3.arc().innerRadius(50).outerRadius(radius - 8).cornerRadius(8);
+    const arc = d3.arc().innerRadius(70).outerRadius(radius - 8).cornerRadius(8);
 
     svg.selectAll("path")
         .data(pie)
@@ -115,3 +115,25 @@ const workflowColors = ["#CAB5FC", "#E0F049", "#ED6A5A"];
 // Create Charts
 createDoughnutChart("#pinChart", "#pinLegend", pinData, pinLabels, pinColors);
 createDoughnutChart("#workflowChart", "#workflowLegend", workflowData, workflowLabels, workflowColors);
+
+
+function toggleDropdown() {
+        const dropdown = document.querySelector('.dropdown-menu');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.querySelector('.dropdown-menu');
+        const toggleBtn = document.querySelector('.dropdown-toggle');
+
+        if (!toggleBtn.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+     $(document).ready(function() {
+        $('.select2').select2({
+            width: '100%'  // Makes dropdown full width
+        });
+    });

@@ -16,7 +16,93 @@ document.addEventListener("DOMContentLoaded", function () {
             } },
         { headerName: "Zone", field: "zone", sortable: true, filter: true,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" } },
         { headerName: "Sub Zone", field: "subZone", sortable: true, filter: true ,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" }},
-        { headerName: "RO", field: "ro", sortable: true, filter: true,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" } },
+//        {
+//     headerName: "RO",
+//     field: "ro",
+//     sortable: true,
+//     filter: true,
+//     resizable: true,
+//     width: 180,
+//     cellStyle: { display: "flex", alignItems: "center" },
+//     cellRenderer: function (params) {
+//         const options = ["Option 1", "Option 2", "Option 3", "Option 4"]; // Replace with your actual RO values
+
+//         let select = document.createElement("select");
+//         select.classList.add("custom-select");
+
+//         options.forEach(option => {
+//             let optionElement = document.createElement("option");
+//             optionElement.value = option;
+//             optionElement.textContent = option;
+//             if (option === params.value) {
+//                 optionElement.selected = true;
+//             }
+//             select.appendChild(optionElement);
+//         });
+
+//         setTimeout(() => {
+//             new Choices(select, { 
+//                 searchEnabled: true, // Enables search
+//                 placeholder: true,
+//                 placeholderValue: "Search here...", // Search placeholder
+//             });
+//         }, 0);
+
+//         select.addEventListener("change", function (event) {
+//             let newValue = event.target.value;
+//             params.node.setDataValue("ro", newValue);
+//         });
+
+//         return select;
+//     }
+// },
+{
+    headerName: "RO",
+    field: "ro",
+    sortable: true,
+    filter: true,
+    resizable: true,
+    width: 180,
+    cellStyle: { display: "flex", alignItems: "center" },
+    cellRenderer: function (params) {
+        const options = ["Option 1", "Option 2", "Option 3", "Option 4"]; // Replace with your actual RO values
+
+        let select = document.createElement("select");
+        select.classList.add("custom-select");
+
+        // Apply inline styles for width and height
+        select.style.width = "133px";
+        select.style.height = "34px";
+        select.style.padding = "4px"; // Optional: Adjust padding if needed
+        select.style.border = "1px solid #ccc"; // Optional: Add border styling
+        select.style.borderRadius = "4px"; // Optional: Add rounded corners
+
+        options.forEach(option => {
+            let optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            if (option === params.value) {
+                optionElement.selected = true;
+            }
+            select.appendChild(optionElement);
+        });
+
+        setTimeout(() => {
+            new Choices(select, { 
+                searchEnabled: true, // Enables search
+                placeholder: true,
+                placeholderValue: "Search here...", // Search placeholder
+            });
+        }, 0);
+
+        select.addEventListener("change", function (event) {
+            let newValue = event.target.value;
+            params.node.setDataValue("ro", newValue);
+        });
+
+        return select;
+    }
+},
         { headerName: "State", field: "state", sortable: true, filter: true ,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" }},
         { headerName: "City", field: "city", sortable: true, filter: true ,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" }},
         { headerName: "District", field: "district", sortable: true, filter: true,resizable:true,width:110,cellStyle: { display: "flex", alignItems: "center" }},
@@ -58,7 +144,9 @@ document.addEventListener("DOMContentLoaded", function () {
     field: "areaCodeStatus",
     pinned: "right",
     resizable: true,
+    editable:false,
     cellStyle: { display: "flex", alignItems: "center" },
+     
     cellRenderer: function (params) {
         if (!params.value) {
             console.warn("⚠️ Missing areaCodeStatus value for:", params);
@@ -108,7 +196,7 @@ const rowData = [
         domLayout: 'autoHeight',
         paginationPageSize: 10,
         rowSelection:"multiple",
-        rowHeight:60,
+        rowHeight:70,
          onPaginationChanged: function () {
             updatePaginationText();
         }

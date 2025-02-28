@@ -13,12 +13,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/styles/ag-grid.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/styles/ag-theme-alpine.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="body-container">
         
     <div class="sidebar">
-			<div class="sidebar-logo">
+			<div class="logo">
 				<img
 					src="~/images/KBL LOGO_Wht.png"
 					class="logo_image" />
@@ -38,9 +39,9 @@
         <i class="ri-verified-badge-fill"></i><i class="ri-verified-badge-line"></i>
         <a asp-area="" asp-controller="Home" asp-action="Workflow">Workflow</a>
     </li>
-    <li class="menu-link @(ViewData["ActivePage"] as string == "Login" ? "active" : "")">
+    <li class="menu-link @(ViewData["ActivePage"] as string == "NotificationEmail" ? "active" : "")">
         <i class="ri-mail-unread-fill"></i><i class="ri-mail-unread-line"></i>
-        <a asp-area="" asp-controller="Home" asp-action="Login">Notification Email</a>
+        <a asp-area="" asp-controller="Home" asp-action="NotificationEmail">Notification Email</a>
     </li>
     <li class="menu-link @(ViewData["ActivePage"] as string == "UserManagement" ? "active" : "")">
         <i class="ri-group-fill"></i><i class="ri-group-line"></i>
@@ -54,11 +55,9 @@
 	
     </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+   
             @RenderBody()
-        </main>
-    </div>
+  
     </div>
 
     @* <footer class="border-top footer text-muted">
@@ -71,6 +70,9 @@
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
     <script src="~/js/sidebar.js"></script>
     <script src="~/js/dashboard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

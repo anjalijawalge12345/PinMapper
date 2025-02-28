@@ -43,6 +43,14 @@ body{
     gap: 1rem;
 }
 
+.logo{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+
+}
+
 .logo p {
     margin: 5px 0;
     font-size: 12px;
@@ -60,6 +68,7 @@ body{
      padding: 12px 17px;
     text-decoration: none;
     color: white;   
+    font-size: 16px;
 }
 
 .menu li {
@@ -78,6 +87,8 @@ body{
 
  .menu-link.active a {
     color: #E0F049 !important;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .menu-link.active{

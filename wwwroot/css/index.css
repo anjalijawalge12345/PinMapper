@@ -1,12 +1,16 @@
 /* index.css */
+
+*{
+	font-family:  "Inter", sans-serif !important;
+}
 body {
 	margin: 0;
-	font-family: Arial, sans-serif;
+	font-family: "Inter", sans-serif !important;
 }
 
 .body-container {
 	height: 100vh;
-	width: 100vw;
+	padding-left: 250px;
 }
 
 /* .container {
@@ -37,7 +41,6 @@ body {
 		),
 		url("../images/login-bg.jpg") no-repeat center center fixed;
 	background-size: cover;
-	font-family: Arial, sans-serif;
 	/* display: flex;
             justify-content: center;
             align-items: center; */
@@ -58,10 +61,10 @@ body {
 	font-size: 40px;
 	color: #fff;
 }
-.logo {
+.login-logo {
 	display: flex;
-	width: 71%;
 	justify-content: center;
+    width: 71%;
 }
 
 .logo-image {
@@ -126,7 +129,7 @@ body {
 .input-button-container {
 	display: flex;
 	flex-direction: column;
-	gap: 12rem;
+	gap: 6rem;
 }
 
 .otp-container {
