@@ -160,25 +160,27 @@
       <script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 5,
-            center: { lat: 22.9734, lng: 78.6569 } // Center of India
-        });
-
-        var locations = @Html.Raw(Json.Serialize(Model.PincodeLocations)); // Make sure this list exists in ViewModel
-
-        locations.forEach(function (location) {
-            new google.maps.Marker({
-                position: { lat: location.latitude, lng: location.longitude },
-                map: map,
-                title: "Pincode: " + location.pincode + "\n" + location.information
-            });
-        });
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
-        initMap();
-    });
+             var map = L.map('map', {
+        attributionControl: false // This removes the attribution
+    }).setView([22.9734, 78.6569], 4.5); // Center on India
+
+         // Add OpenStreetMap tile layer
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+             attribution: '&copy; OpenStreetMap contributors'
+         }).addTo(map);
+
+         // Get Pincode locations from Model
+         var locations = @Html.Raw(Json.Serialize(Model.PincodeLocations));
+
+         locations.forEach(function (location) {
+             L.marker([location.latitude, location.longitude])
+                 .addTo(map)
+                 .bindPopup("<b>Pincode:</b> " + location.pincode + "<br>" + location.information);
+         });
+     });
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.GoogleMapsApiKey"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
