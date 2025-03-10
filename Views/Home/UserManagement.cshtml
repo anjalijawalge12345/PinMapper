@@ -231,6 +231,31 @@
         { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
          { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP", subSector:"CSS" },
         { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
+        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"Retail" },
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry" ,sector:"SBP", subSector:"Industry"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP" , subSector:"CSS"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail" ,sector:"SBP", subSector:"Industry"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP", subSector:"CSS" },
+        { name: "Pratik Joshi", email: "PJosh", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP"  , subSector:"Retail"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"Retail" },
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry" ,sector:"SBP", subSector:"Retail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP", subSector:"Industry"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"CSS" },
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"CSS"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP", subSector:"CSS" },
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"Retail"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"Retail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP", subSector:"Industry"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail" ,sector:"SBP", subSector:"Industry"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"Reatail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
+         { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP", subSector:"CSS" },
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
+        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail" ,sector:"SBP", subSector:"Industry"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"Reatail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
+         { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP", subSector:"CSS" },
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
     ];
   var gridOptions = {
     columnDefs: columnDefs,
@@ -259,8 +284,8 @@
                 const startRow = currentPageIndex * currentPageSize + 1;
                 let endRow = (currentPageIndex + 1) * currentPageSize;
                 if (endRow > totalRows) endRow = totalRows;
-
-                const customText = `Showing ${endRow} data of ${totalRows} entries`;
+ const rowsThisPage = endRow - startRow + 1;
+                const customText = `Showing ${rowsThisPage} data of ${totalRows} entries`;
                 
                 let customPaginationDiv = document.querySelector("#custom-pagination");
                 if (!customPaginationDiv) {

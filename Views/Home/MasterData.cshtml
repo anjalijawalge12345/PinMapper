@@ -1,1 +1,316 @@
-<div>Master data</div>
+  <link rel="stylesheet" href="~/css/master-data.css" asp-append-version="true" /> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
+ <div class="master-data">
+    <div class="master-data-container">
+    <header>
+            <h2 class="dashboard_title">Master Data</h2>
+            <div class="header-right">
+                <img src="~/images/bell with badge.png" alt="notification" class="notification_image">
+                <div class="user-info">
+                    <img src="~/images/Ellipse 269.png" alt="user">
+                    <div class="user-details">
+                        <span class="username">Ranjan PM</span>
+                        <small class="user-designation">Super Admin</small>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropdown_toggle" onclick="toggleDropdown()"><i class="ri-arrow-drop-down-line"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Help & Settings</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+         <div class="filter-buttons">
+            <button class="active">Workflow Definition</button>
+            <button class="new-tab">Zone - Sub Zone -- RO</button>
+            <button>Function</button>
+            <button>District Code</button>
+        </div>
+        <div class="search-container">
+        <button id="editBtn" data-bs-toggle="offcanvas" data-bs-target="#addUserSidebar"><i class="ri-add-circle-line"></i>Add</button>
+    </div>
+      <div id="myGrid" class="ag-theme-alpine"></div>
+    <div class="card-container" style="display: none;">
+</div>
+ <div id="pagination-container" style="display:none; margin-top: 10px; text-align:center; align-items: center;gap:0.5rem; justify-content: space-between;">
+    <span id="entryCount" style="margin-left: 15px;"></span>
+    <div>
+  <button id="prevPage"><i class="ri-arrow-left-s-line"></i></button>
+  <span id="pageNumber">Page 1</span>
+  <button id="nextPage"><i class="ri-arrow-right-s-line"></i></button>
+  </div>
+</div>
+    </div>
+ </div>
+  @section Scripts
+{
+ <script>
+    const columnDefs = [
+        { field: "name", headerName: "Name", sortable: true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px",fontWeight:500,color:"#74828F" } },
+        { field: "function", headerName: "Function", width:80,sortable: true,resizable:true, filter: true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px",fontWeight:500,color:"#74828F" } },
+        { field: "level", headerName: "Level",sortable: true, width:60,resizable:true,filter: true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px",fontWeight:500,color:"#74828F" } },
+        {
+    field: "approvers",
+    headerName: "Approver",
+    resizable: true,
+    autoHeight: true,
+    width:80,
+    cellRenderer: function(params) {
+        return params.value.map(approver =>
+            `<div>
+                <span class="level-badge level-${approver.level}">Level ${approver.level}</span>
+                
+            </div>`
+        ).join('');
+    }
+},{
+    field: "approverName",
+    headerName: "",
+    resizable: true,
+    sortable: true,
+    @* width:150, *@
+    cellRenderer: function (params) {
+        if (!params.data.approvers) return "";
+        return params.data.approvers
+            .map(approver => `<div>${approver.name || ""}</div>`)
+            .join('');
+    }
+},{
+    field: "approverEmail",
+    headerName: "",
+    resizable: true,
+    sortable: true,
+    cellRenderer: function (params) {
+        if (!params.data.approvers) return "";
+        return params.data.approvers
+            .map(approver => `<div>${approver.email || ""}</div>`)
+            .join('');
+    }
+},
+        {
+            field: "action",
+            headerName: "Action",width:70,pinned:"right",cellStyle: { display: "flex", alignItems: "center",fontSize:"14px",fontWeight:500,color:"#74828F" },
+            cellRenderer: function() {
+                return `<button class="edit-btn"><i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span></button>`;
+            }
+        }
+    ];
+
+    const rowData = [
+        { name: "Workflow ABC", function: "Retail", level: 2 , approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com"}, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow PQR", function: "Industry", level: 4, approvers: [{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" }, { level: 3, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "CSS", level: 1, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow HIJ", function: "IDCD", level: 2, approvers: [{ level: 2, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "Industry", level: 1, approvers: [{ level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }] },
+        { name: "Workflow ABC", function: "Industry", level: 2, approvers: [{ level: 3, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" }] },
+        { name: "Workflow MNO", function: "Industry", level: 2, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },{ name: "Workflow ABC", function: "Retail", level: 2 , approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com"}, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow PQR", function: "Industry", level: 4, approvers: [{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" }, { level: 3, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "CSS", level: 1, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow HIJ", function: "IDCD", level: 2, approvers: [{ level: 2, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "Industry", level: 1, approvers: [{ level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }] },
+        { name: "Workflow ABC", function: "Industry", level: 2, approvers: [{ level: 3, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" }] },
+        { name: "Workflow MNO", function: "Industry", level: 2, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },{ name: "Workflow ABC", function: "Retail", level: 2 , approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com"}, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow PQR", function: "Industry", level: 4, approvers: [{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" }, { level: 3, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "CSS", level: 1, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow HIJ", function: "IDCD", level: 2, approvers: [{ level: 2, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "Industry", level: 1, approvers: [{ level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }] },
+        { name: "Workflow ABC", function: "Industry", level: 2, approvers: [{ level: 3, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" }] },
+        { name: "Workflow MNO", function: "Industry", level: 2, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },{ name: "Workflow ABC", function: "Retail", level: 2 , approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com"}, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow PQR", function: "Industry", level: 4, approvers: [{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" }, { level: 3, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "CSS", level: 1, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow HIJ", function: "IDCD", level: 2, approvers: [{ level: 2, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "Industry", level: 1, approvers: [{ level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }] },
+        { name: "Workflow ABC", function: "Industry", level: 2, approvers: [{ level: 3, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" }] },
+        { name: "Workflow MNO", function: "Industry", level: 2, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },{ name: "Workflow ABC", function: "Retail", level: 2 , approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com"}, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow PQR", function: "Industry", level: 4, approvers: [{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" }, { level: 3, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "CSS", level: 1, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow HIJ", function: "IDCD", level: 2, approvers: [{ level: 2, name: "Swapnil Patil", email: "Swa***il@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
+        { name: "Workflow XYZ", function: "Industry", level: 1, approvers: [{ level: 2, name: "Ashok Rao", email: "Asho***ao@kbl.com" }] },
+        { name: "Workflow ABC", function: "Industry", level: 2, approvers: [{ level: 3, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 2, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 4, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" },{ level: 1, name: "Alok Apte", email: "alo***te@kbl.com" }] },
+        { name: "Workflow MNO", function: "Industry", level: 2, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] }
+    ];
+
+    const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+        pagination: true,
+        paginationPageSize: 10,
+        domLayout: 'autoHeight',
+        onGridReady: function(params) {
+        params.api.sizeColumnsToFit();
+    },
+    @* onPaginationChanged: function() {
+        updatePaginationText();
+    } *@
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const gridDiv = document.querySelector("#myGrid");
+        new agGrid.Grid(gridDiv, gridOptions);
+
+        @* function updatePaginationText() {
+        setTimeout(() => {
+            const pageInfo = document.querySelector(".ag-paging-panel");
+            if (pageInfo) {
+                const currentPageSize = gridOptions.api.paginationGetPageSize();
+                const currentPageIndex = gridOptions.api.paginationGetCurrentPage();
+                const totalRows = gridOptions.api.paginationGetRowCount();
+                const startRow = currentPageIndex * currentPageSize + 1;
+                let endRow = (currentPageIndex + 1) * currentPageSize;
+                if (endRow > totalRows) endRow = totalRows;
+
+                const customText = `Showing ${endRow} data of ${totalRows} entries`;
+                
+                let customPaginationDiv = document.querySelector("#custom-pagination");
+                if (!customPaginationDiv) {
+                    customPaginationDiv = document.createElement("div");
+                    customPaginationDiv.id = "custom-pagination";
+                    customPaginationDiv.style.marginRight = "auto"; // Align to the left
+                    pageInfo.prepend(customPaginationDiv);
+                }
+                customPaginationDiv.innerText = customText;
+            }
+        }, 100);
+    } *@
+    });
+
+    function onFilterTextBoxChanged() {
+        gridOptions.api.setQuickFilter(document.getElementById('searchBox').value);
+    }
+</script>
+<script>
+    const sampleData = [
+        { title: "SB - Retail", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "SB - CSS", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "IDCD", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "SB - Industry", date: "Jun 20, 2019", creator: "Dhananjay Patil" }
+    ];
+
+    const districtCodeData = [
+        { title: "MH.IN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GJ.PB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GA.PN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "MP.JB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+         { title: "MH.IN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GJ.PB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GA.PN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "MP.JB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+         { title: "MH.IN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GJ.PB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GA.PN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "MP.JB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+         { title: "MH.IN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GJ.PB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GA.PN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "MP.JB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+         { title: "MH.IN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GJ.PB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "GA.PN", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+        { title: "MP.JB", date: "Jun 20, 2019", creator: "Dhananjay Patil" },
+    ];
+
+    const filterButtons = document.querySelectorAll(".filter-buttons button");
+    const cardContainer = document.querySelector(".card-container");
+    const searchContainer = document.querySelector(".search-container");
+    const myGrid = document.querySelector("#myGrid");
+const paginationContainer = document.getElementById("pagination-container");
+
+    const prevBtn = document.getElementById("prevPage");
+    const nextBtn = document.getElementById("nextPage");
+    const pageNumberDisplay = document.getElementById("pageNumber");
+     let currentPage = 1;
+    const cardsPerPage = 8;
+    filterButtons.forEach((button, index) => {
+        button.addEventListener("click", function () {
+            document.querySelector(".filter-buttons .active")?.classList.remove("active");
+            this.classList.add("active");
+
+            if (index === 2 || index === 3) {
+                searchContainer.style.display = "none";
+            } else {
+                searchContainer.style.display = "flex";
+            }
+
+            if (index === 2) {
+                myGrid.style.display = "none";
+                cardContainer.style.display = "flex";
+                paginationContainer.style.display = "none";
+                renderCards(sampleData);
+            } else if (index === 3) {
+                myGrid.style.display = "none";
+                cardContainer.style.display = "flex";
+                paginationContainer.style.display = "flex";
+                currentPage = 1;
+                renderPaginatedCards(districtCodeData, currentPage);
+            } else {
+                myGrid.style.display = "block";
+                cardContainer.style.display = "none";
+                paginationContainer.style.display = "none";
+            }
+        });
+    });
+
+    function renderCards(data) {
+        cardContainer.innerHTML = data
+            .map(item => createCardHTML(item))
+            .join("");
+    }
+
+    function renderPaginatedCards(data, page) {
+        const startIndex = (page - 1) * cardsPerPage;
+        const endIndex = startIndex + cardsPerPage;
+        const paginatedData = data.slice(startIndex, endIndex);
+        cardContainer.innerHTML = paginatedData
+            .map(item => createCardHTML(item))
+            .join("");
+
+        const totalPages = Math.ceil(data.length / cardsPerPage);
+    pageNumber.textContent = `Page ${currentPage} of ${totalPages}`;
+      const entryCount = document.getElementById("entryCount");
+    entryCount.textContent = `Showing ${paginatedData.length} data of ${data.length} entries`;
+        prevBtn.disabled = page === 1;
+        nextBtn.disabled = endIndex >= data.length;
+    }
+
+    function createCardHTML(item) {
+        return `
+            <div class="card">
+                <div class="title">${item.title}</div>
+                <div class="img-details">
+                    <img src="/images/Frame 1261153459.png" class="calendar-image" />
+                    <div class="details">
+                        <span class="creation-text"> Creation Date</span> 
+                        <span class="creation-date">${item.date}</span>
+                    </div>
+                </div>
+                <div class="img-details">
+                    <img src="/images/Frame 1261153459 (1).png" class="calendar-image" />
+                    <div class="details">
+                        <span class="creation-text"> Created By</span> 
+                        <span>${item.creator}</span>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderPaginatedCards(districtCodeData, currentPage);
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if ((currentPage * cardsPerPage) < districtCodeData.length) {
+            currentPage++;
+            renderPaginatedCards(districtCodeData, currentPage);
+        }
+    });
+</script>
+}
