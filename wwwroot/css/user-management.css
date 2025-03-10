@@ -1,0 +1,183 @@
+.user-management{
+    padding: 20px;
+    background: #f1f3f5;
+    height: 100vh;
+}
+
+.user-management-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.offcanvas{
+    width: 491px !important;
+    border-radius: 6px !important;
+}
+
+
+.ag-icon-asc::before {
+    content: "\ea76" !important; /* Remix Icon Unicode */
+    font-family: 'remixicon';
+   
+}
+
+.ag-icon-desc::before {
+    content: "\ea4c" !important; /* Remix Icon Unicode */
+    font-family: 'remixicon';
+}
+.ag-icon-small-down::before{
+    content: "\ea4e" !important;
+     font-family: 'remixicon';
+
+}
+
+.offcanvas-header{
+    display: flex;
+    align-items: flex-start !important;
+    box-shadow: 0px 4px 4px 0px #D8D8D840;
+
+}
+
+
+.form-class{
+    gap: 1rem;
+}
+
+.user-buttons{
+    border-top: 1px solid #d7d7d7;
+}
+
+.btn-close{
+    color: #74828F;
+}
+
+.cancel-button{
+    width: 120px;
+    height: 34px;
+    font-size: 14px !important;
+    color: #333335 !important;
+    font-weight: 600 !important;
+}
+
+.cancel-button:hover{
+    background-color: transparent !important;
+}
+
+.form-select option:first-child {
+    color: grey !important;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    outline: none !important; /* Removes the default outline */
+    box-shadow: none !important; /* Removes Bootstrap's default shadow */
+    border-color: #ccc !important;
+}
+.add-button{
+    width: 120px;
+    height: 34px;
+    background: #333335 !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #E0F049 !important;
+}
+
+#uploadedImage{
+    height: 78px;
+    width: 78px;
+}
+.dropzone_text{
+    display: flex;
+    flex-direction: column;
+}
+.sidebar_img{
+    height: 48px;
+    width: 48px;
+}
+
+.ag-icon-menu::before{
+    content: "\ed24" !important;
+    font-family: 'remixicon';
+}
+.ag-icon-previous::before{
+    content: "\ea64" !important;
+    font-family: 'remixicon' !important;
+    background-color: white;
+    border: 0.9px solid #e7e7e7;
+    border-radius: 4px;
+
+}
+
+.ag-disabled .ag-icon-previous::before {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.ag-icon-next::before{
+    content: "\EA6e" !important;
+    font-family: 'remixicon' !important;
+    background-color: white;
+    border: 0.9px solid #e7e7e7;
+    border-radius: 4px;
+
+}
+.ag-disabled .ag-icon-next::before {
+    background-color: transparent !important;
+    border: none !important;
+}
+#dropzone {
+    transition: border 0.3s ease-in-out;
+}
+#dropzone.border-primary {
+    border: 2px dashed #007bff !important;
+}
+
+.hr{
+    margin: 0;
+    border: 1px solid;
+}
+
+.drag_and_drop_class{
+    font-size: 16px;
+    font-weight: 500;
+    color: #484848;
+}
+
+.upload{
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: 600;
+    color: #484848;
+}
+
+.text-muted{
+    font-size: 14px;
+    color: #484848;
+}
+
+.toast{
+    background-color: #2D3438 !important;
+}
+
+.toast-close{
+    color: #E0F049 !important;
+}
+.custom-toast .btn-close {
+    filter: invert(1); /* Makes it white */
+    color: yellow !important;
+}
+
+
+.checkbox-circle{
+    color: #E0F049 !important;
+    font-size: 18px;
+}
+.toast-body{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+}

@@ -1,1 +1,343 @@
-<div>User management</div>
+
+
+  <link rel="stylesheet" href="~/css/user-management.css" asp-append-version="true" /> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="user-management">
+    <div class="user-management-container">
+       <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+    <div id="saveToast" class="toast custom-toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="ri-checkbox-circle-fill"></i>
+                User Details Updated Successfully
+            </div>
+            <button type="button" class=" toast-close btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+        <header>
+            <h2 class="dashboard_title">User Management</h2>
+            <div class="header-right">
+                <img src="~/images/bell with badge.png" alt="notification" class="notification_image">
+                <div class="user-info">
+                    <img src="~/images/Ellipse 269.png" alt="user">
+                    <div class="user-details">
+                        <span class="username">Ranjan PM</span>
+                        <small class="user-designation">Super Admin</small>
+                    </div>
+                    <!-- Dropdown Menu -->
+                    <div class="dropdown">
+                        <button class="dropdown_toggle" onclick="toggleDropdown()"><i class="ri-arrow-drop-down-line"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Help & Settings</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+       <div class="search-container">
+        <button id="editBtn" data-bs-toggle="offcanvas" data-bs-target="#addUserSidebar"><i class="ri-add-circle-line"></i>Add</button>
+    </div>
+<!-- Sidebar Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar" aria-labelledby="addUserSidebarLabel">
+    <div class="offcanvas-header p-4">
+        <div class="d-flex flex-column gap-2">
+            <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
+            <h5 class="offcanvas-title" id="addUserSidebarLabel">Add User</h5>
+             <p class="m-0">Enter below details to add User</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <form class="d-flex flex-column form-class">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" placeholder="Enter Name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email ID</label>
+                <input type="email" class="form-control" placeholder="Enter Email">
+            </div>
+             <div class="mb-3">
+                <label class="form-label">Contact</label>
+                <input type="contact" class="form-control" placeholder="Enter Contact Number">
+            </div>
+               <div class="mb-3">
+                <label class="form-label">Sector</label>
+                <select class="form-select">
+                    <option>Select Sector</option>
+                    <option>SPB</option>
+                    <option>IDCD</option>
+                </select>
+            </div>
+               <div class="mb-3">
+                <label class="form-label">Sub Sector</label>
+                <select class="form-select">
+                    <option>Select Sub Sector</option>
+                    <option>Industry</option>
+                    <option>Retail</option>
+                    <option>CSS</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select class="form-select">
+                    <option>Select Role</option>
+                    <option>Admin</option>
+                    <option>Checker</option>
+                    <option>Maker</option>
+                </select>
+            </div>
+        </form>
+
+       
+    </div>
+     <div class="d-flex justify-content-end p-4 user-buttons">
+            <button type="button" class="btn btn-outline-dark me-2 cancel-button" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-warning  add-button" onclick="showToast()">Save</button>
+        </div>
+</div>
+<div id="myGrid" class="ag-theme-alpine"></div>
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+   
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initializeGrid();
+            
+        });
+        
+  function showToast() {
+    const toastElement = document.getElementById("saveToast");
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+        function initializeGrid() {
+            console.log("came here")
+
+        
+ var columnDefs = [
+ { headerName: "Sector", field: "sector" ,width:180,sortable: true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px" ,fontWeight:500,color:"#74828F"}},
+        { headerName: "Sub Sector", field: "subSector",width:180,sortable: true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center" ,fontSize:"14px",fontWeight:500,color:"#74828F"} },
+        { headerName: "Name", field: "name",width:250,sortable: true,editable:true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px",fontWeight:500,color:"#74828F" },cellRenderer: function (params) {
+            if (!params.value) return '';
+            const container = document.createElement("div");
+            container.style.display = "flex";
+            container.style.alignItems = "center";
+
+            const nameText = document.createElement("span");
+            nameText.innerText = params.value;
+
+            container.appendChild(nameText);
+
+            return container;
+        } },
+        @* { headerName: "Email Id", field: "email",width:300 ,sortable: true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px",fontWeight:500,color:"#74828F" }}, *@
+       {
+    headerName: "Email",
+    field: "email",
+     editable: (params) => params.data.isEditing, 
+    cellEditor: "agTextCellEditor",
+    valueSetter: function (params) {
+        params.data.email = params.newValue; // Always store the entered value
+        if (!validateEmail(params.newValue)) {
+            params.data.invalidEmail = true;  // Mark as invalid
+            params.data.emailErrorMessage = "Invalid Email Format!";
+        } else {
+            params.data.invalidEmail = false; // Clear error if valid
+            params.data.emailErrorMessage = "";
+        }
+        return true;  // Always return true to update the grid
+    },
+    cellRenderer: function (params) {
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.gap = "8px";
+
+        // Email text (user input)
+        const emailText = document.createElement("span");
+        emailText.innerText = params.value || "";
+        container.appendChild(emailText);
+
+        // Error Icon if email is invalid
+        if (params.data?.invalidEmail) {
+            const errorIcon = document.createElement("i");
+            errorIcon.className = "ri-error-warning-line"; // Remix Icon
+            errorIcon.style.color = "red";
+            errorIcon.style.cursor = "pointer";
+            errorIcon.title = params.data.emailErrorMessage; // Tooltip message
+            container.appendChild(errorIcon);
+        }
+
+        return container;
+    }
+}
+,
+        { headerName: "Contact", field: "contact", width:250,sortable: true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center" ,fontSize:"14px",fontWeight:500,color:"#74828F"} }, // Masking applied
+        { headerName: "Role", field: "role" ,width:180,sortable: true, filter: true,resizable:true,cellStyle: { display: "flex", alignItems: "center",fontSize:"14px" ,fontWeight:500,color:"#74828F"}},
+        
+         {
+        headerName: "Action",
+        field: "action",
+        filter: true,
+        width: 100,
+        resizable: true,
+        pinned: "right",
+        cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" },
+        sortable: true,
+        cellRenderer: function (params) {
+            const button = document.createElement("button");
+            button.className = "edit-btn";
+            button.innerHTML = `<i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span>`;
+
+            button.addEventListener("click", function () {
+                params.data.isEditing = true; // Enable editing for this row
+                params.api.refreshCells({ force: true }); // Refresh grid to update UI
+            });
+
+            return button;
+        }
+    },
+    ];
+
+    var rowData = [
+        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"Retail" },
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry" ,sector:"SBP", subSector:"Industry"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP" , subSector:"CSS"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail" ,sector:"SBP", subSector:"Industry"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP", subSector:"CSS" },
+        { name: "Pratik Joshi", email: "PJosh", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP"  , subSector:"Retail"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"Retail" },
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry" ,sector:"SBP", subSector:"Retail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP", subSector:"Industry"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"CSS" },
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"CSS"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP", subSector:"CSS" },
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail",sector:"SBP", subSector:"Retail"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"Retail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS",sector:"SBP", subSector:"Industry"},
+         { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail" ,sector:"SBP", subSector:"Industry"},
+        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP" , subSector:"Reatail"},
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
+         { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry",sector:"SBP", subSector:"CSS" },
+        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS" ,sector:"SBP", subSector:"CSS" },
+    ];
+  var gridOptions = {
+    columnDefs: columnDefs,
+    rowData: rowData,
+    pagination: true,
+    paginationPageSize: 20,
+    domLayout: 'autoHeight',
+    rowHeight: 40,
+    onGridReady: function(params) {
+        params.api.sizeColumnsToFit();
+    },
+    onPaginationChanged: function() {
+        updatePaginationText();
+    }
+};
+        var gridDiv = document.querySelector("#myGrid");
+        new agGrid.Grid(gridDiv, gridOptions);
+
+        function updatePaginationText() {
+        setTimeout(() => {
+            const pageInfo = document.querySelector(".ag-paging-panel");
+            if (pageInfo) {
+                const currentPageSize = gridOptions.api.paginationGetPageSize();
+                const currentPageIndex = gridOptions.api.paginationGetCurrentPage();
+                const totalRows = gridOptions.api.paginationGetRowCount();
+                const startRow = currentPageIndex * currentPageSize + 1;
+                let endRow = (currentPageIndex + 1) * currentPageSize;
+                if (endRow > totalRows) endRow = totalRows;
+
+                const customText = `Showing ${endRow} data of ${totalRows} entries`;
+                
+                let customPaginationDiv = document.querySelector("#custom-pagination");
+                if (!customPaginationDiv) {
+                    customPaginationDiv = document.createElement("div");
+                    customPaginationDiv.id = "custom-pagination";
+                    customPaginationDiv.style.marginRight = "auto"; // Align to the left
+                    pageInfo.prepend(customPaginationDiv);
+                }
+                customPaginationDiv.innerText = customText;
+            }
+        }, 100);
+    }
+}
+
+function validateEmail(email) {
+    const emailRegex = /^[^\s@@]+@@[^\=s@@]+\.[^\s@@]+$/; 
+    return emailRegex.test(email);
+}
+
+     const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("fileInput");
+    const uploadedImage = document.getElementById("uploadedImage");
+
+    // Open file input when clicking on dropzone
+    dropzone.addEventListener("click", () => {
+        fileInput.value = ""; // ✅ Reset input to prevent file explorer reopening
+        fileInput.click();
+    });
+
+    // Handle file selection
+    fileInput.addEventListener("change", (event) => {
+        if (event.target.files.length > 0) {
+            handleFileUpload(event.target.files[0]);
+        }
+    });
+
+    // Drag-and-drop event listeners
+    dropzone.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        dropzone.classList.add("border-primary");
+    });
+
+    dropzone.addEventListener("dragleave", () => {
+        dropzone.classList.remove("border-primary");
+    });
+
+    dropzone.addEventListener("drop", (event) => {
+        event.preventDefault();
+        dropzone.classList.remove("border-primary");
+
+        if (event.dataTransfer.files.length > 0) {
+            handleFileUpload(event.dataTransfer.files[0]);
+        }
+    });
+
+    function handleFileUpload(file) {
+        if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                uploadedImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            fileInput.value = ""; // ✅ Reset file input after successful upload
+        } else {
+            alert("Only PNG and JPG images are allowed!");
+        }
+    }
+    
+    
+</script>
+
+
+}
+        <!-- AG Grid Table -->
+        
+    </div>
+</div>
+
+    @* <script src="../js/user-management.js"></script> *@
