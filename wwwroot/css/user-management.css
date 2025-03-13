@@ -48,6 +48,19 @@
     border-top: 1px solid #d7d7d7;
 }
 
+.save-btn{
+    background: none;
+    border: none;
+    color: green;
+    font-size: 20px;
+}
+
+.cancel-btn{
+ background: none;
+    border: none;
+    color:red;
+    font-size: 20px;
+}
 .btn-close{
     color: #74828F;
 }
@@ -62,6 +75,9 @@
 
 .cancel-button:hover{
     background-color: transparent !important;
+}
+.email-error-cell {
+    border: 1px solid red !important;
 }
 
 .form-select option:first-child {

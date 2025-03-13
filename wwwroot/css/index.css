@@ -166,3 +166,27 @@ body {
 	flex-direction: column;
 	gap: 0.6rem;
 }
+
+.ag-cell-edit-input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+.ag-cell-edit-input:focus {
+  border-color: 1px solid #e7e7e7;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.ag-theme-alpine .ag-ltr input[class^=ag-][type=text]{
+	    outline: none;
+    border: 1px solid #e7e7e7;
+    box-shadow: none;
+}
+
+.ag-cell-value .ag-cell .ag-cell-normal-height .ag-cell-not-inline-editing{
+	padding: 0px !important;
+}

@@ -155,3 +155,126 @@
     border: none !important;
     background-color: transparent !important;
 }
+
+.sidebar_img{
+    height: 48px;
+    width: 48px;
+}
+
+.offcanvas{
+    width: 611px !important;
+    border-radius: 6px !important;
+}
+
+.select-option,.form-control{
+    width: 268px !important;
+    border: 1px solid #686D9A33;
+
+}
+.form-control:focus, 
+.form-select:focus {
+    outline: none !important; /* Removes the default outline */
+    box-shadow: none !important; /* Removes Bootstrap's default shadow */
+    border-color: #ccc !important;
+}
+
+.offcanvas-subtitle{
+    color: #939393;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.offcanvas-body{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.offcanvas-title{
+    color: #353535;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.form-label{
+    color: #4F5375;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.add-button{
+    width: 120px;
+    height: 34px;
+    background: #333335 !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #E0F049 !important;
+}
+
+.cancel-button{
+    width: 120px;
+    height: 34px;
+    font-size: 14px !important;
+    color: #333335 !important;
+    font-weight: 600 !important;
+}
+
+.cancel-button:hover{
+    background-color: transparent !important;
+}
+
+.user-buttons{
+    border-top: 1px solid #d7d7d7;
+}
+
+.approval-level-heading-container{
+    display: flex;
+    gap: 10px;
+}
+
+.approval-level-heading{
+    font-size: 14px;
+    font-weight: 500;
+    color: #333335;
+}
+
+.approval-level-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-level-button{
+    width: 60px;
+    height: 34px;
+    border-radius: 4px;
+    border: 1px solid #333335;
+    background-color: #fff;
+    color: #333335;
+}
+
+.tooltip .tooltip-inner {
+  background-color: #333335;     /* Optional: dark background */
+  color: #E0F049 !important;   /* Yellow text */
+  font-size: 12px;
+  font-style: italic;
+  padding: 6px 10px;
+  border-radius: 4px;
+    white-space: nowrap !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+.add-level-button:disabled{
+    opacity: 0.5;
+}
+
+    .form-check-input:checked {
+    background-color: #333335 !important;
+    border-color:white !important;
+    color: white !important;}
+
+    .form-check-input:checked[type=radio] {
+    --bs-form-check-bg-image: none !important;
+}
