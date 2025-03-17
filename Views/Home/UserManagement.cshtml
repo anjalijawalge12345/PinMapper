@@ -130,19 +130,20 @@
 
                     var columnDefs = [
                         {
-                            headerName: "Sector", field: "sector", width: 180, editable: (params) => params.data.isEditing, cellEditor: "agSelectCellEditor", cellEditorParams: {
+                            headerName: "Sector", field: "sector", editable: (params) => params.data.isEditing, cellEditor: "agSelectCellEditor", cellEditorParams: {
                                 values: ["SBP", "IDCD"],
-                            }, sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+                            }, filter: "agDateColumnFilter",
+                            floatingFilter: true, sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
                         },
                         {
-                            headerName: "Sub Sector", field: "subSector", width: 180, editable: (params) => params.data.isEditing, cellEditor: "agSelectCellEditor", cellEditorParams: {
+                            headerName: "Sub Sector", field: "subSector", filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
+                            floatingFilter: true, editable: (params) => params.data.isEditing, cellEditor: "agSelectCellEditor", cellEditorParams: {
                                 values: ["Retail", "Industrial", "CSS"],
                             }, sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
                         },
                         {
                             headerName: "Name",
                             field: "name",
-                            width: 250,
                             sortable: true,
                             editable: (params) => params.data.isEditing,
                             filter: true,
@@ -272,14 +273,13 @@
                         {
                             headerName: "Role", field: "role", cellEditor: "agSelectCellEditor", cellEditorParams: {
                                 values: ["Admin", "Super Admin", "Maker", "Checker"],
-                            }, width: 180, sortable: true, editable: (params) => params.data.isEditing, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+                            }, sortable: true, editable: (params) => params.data.isEditing, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
                         },
 
                         {
                             headerName: "Action",
                             field: "action",
                             filter: true,
-                            width: 100,
                             resizable: true,
                             pinned: "right",
                             sortable: false,

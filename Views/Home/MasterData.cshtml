@@ -59,6 +59,21 @@
                 </button>
             </div>
         </div>
+        <div id="zoneContainer" style="display: none;">
+            @{
+                await Html.RenderPartialAsync("_Zone");
+            }
+        </div>
+        <div id="subZoneContainer" style="display: none;">
+            @{
+                await Html.RenderPartialAsync("_SubZone");
+            }
+        </div>
+        <div id="ROContainer" style="display: none;">
+            @{
+                await Html.RenderPartialAsync("_RegionalOffice");
+            }
+        </div>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar" aria-labelledby="addUserSidebarLabel">
             <div class="offcanvas-header p-4">
                 <div class="d-flex flex-column gap-2 ">
@@ -145,9 +160,9 @@
                 cellRenderer: function (params) {
                     return params.value.map(approver =>
                         `<div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="level-badge level-${approver.level}">Level ${approver.level}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="level-badge level-${approver.level}">Level ${approver.level}</span>
                 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>`
                     ).join('');
                 }
             }, {
@@ -155,14 +170,14 @@
                 headerName: "",
                 resizable: true,
                 sortable: true,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @* width:150, *@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @* width:150, *@
             cellRenderer: function (params) {
                 if (!params.data.approvers) return "";
                 return params.data.approvers
                     .map(approver => `<div>${approver.name || ""}</div>`)
                     .join('');
             }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }, {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }, {
             field: "approverEmail",
                 headerName: "",
                     resizable: true,
@@ -181,7 +196,7 @@
                 return `<button class="edit-btn"><i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span></button>`;
             }
         }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ];
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ];
 
         const workflowRowData = [
             { name: "Workflow ABC", function: "Retail", level: 2, approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
@@ -266,7 +281,6 @@
                 params.api.sizeColumnsToFit();
             },
             domLayout: 'autoHeight',
-
         }
         const functionGridOptions = {
             columnDefs: functionColumnDefs,
@@ -287,10 +301,10 @@
             onGridReady: function (params) {
                 params.api.sizeColumnsToFit();
             },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @* onPaginationChanged: function() {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @* onPaginationChanged: function() {
         updatePaginationText();
     } *@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                };
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    };
 
         document.addEventListener('DOMContentLoaded', function () {
             const gridDiv = document.querySelector("#myGrid");
@@ -331,7 +345,7 @@
             }
         }, 100);
     } *@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
 
         function onFilterTextBoxChanged() {
             workflowGridOptions.api.setQuickFilter(document.getElementById('searchBox').value);
@@ -348,13 +362,41 @@
         const functionGrid = document.querySelector("#functionGrid");
         const disrictCodeGrid = document.querySelector("#disrictCodeGrid");
         const zone_subZone_RO_container = document.querySelector("#zone_subZone_RO_container");
+        const zoneContainer = document.querySelector("#zoneContainer");
+        const subZoneContainer = document.querySelector("#subZoneContainer");
+        const ROContainer = document.querySelector("#ROContainer");
+        const radios = document.querySelectorAll('input[name="level"]');
 
+        function updateContainerDisplay() {
+            // Hide all containers first
+            zoneContainer.style.display = "none";
+            subZoneContainer.style.display = "none";
+            ROContainer.style.display = "none";
+
+            // Show only the selected one
+            if (document.getElementById("zone").checked) {
+                zoneContainer.style.display = "block";
+            } else if (document.getElementById("subZone").checked) {
+                subZoneContainer.style.display = "block";
+            } else if (document.getElementById("regionalOffice").checked) {
+                ROContainer.style.display = "block";
+            }
+        }
+        radios.forEach(radio => {
+            radio.addEventListener("change", updateContainerDisplay);
+        });
+
+        // ✅ Show correct container on initial page load
+        updateContainerDisplay();
 
         myGrid.style.display = "block";
         functionGrid.style.display = "none";
         searchContainer.style.display = "flex";
         disrictCodeGrid.style.display = "none";
         zone_subZone_RO_container.style.display = "none";
+        zoneContainer.style.display = "none";
+        subZoneContainer.style.display = "none";
+        ROContainer.style.display = "none";
         filterButtons.forEach((button, index) => {
             button.addEventListener("click", function () {
                 // Remove previous active class and add to current
@@ -370,6 +412,9 @@
                 functionGrid.style.display = "none";
                 disrictCodeGrid.style.display = "none";
                 zone_subZone_RO_container.style.display = "none";
+                zoneContainer.style.display = "none";
+                subZoneContainer.style.display = "none";
+                ROContainer.style.display = "none";
 
                 // Show specific grid based on index
                 switch (index) {
@@ -381,6 +426,7 @@
                         break;
                     case 1:
                         zone_subZone_RO_container.style.display = "block";
+                        zoneContainer.style.display = "block";
                         break;
                     default:
                         myGrid.style.display = "block";

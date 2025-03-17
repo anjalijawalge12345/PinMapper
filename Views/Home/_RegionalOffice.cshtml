@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
+
+<div id="ROGrid" class="ag-theme-alpine"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        const columnDefs = [
+            { headerName: "Zone Name", field: "zoneName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Zone Code", field: "zoneCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Sub-Zone Name", field: "subZoneName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Sub-Zone Code", field: "subZoneCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "RO Name", field: "ROName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "RO Code", field: "ROCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            {
+                headerName: "Action",
+                field: "action",
+                filter: true,
+                resizable: true,
+                sortable: false,
+                cellStyle: {
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    color: "#74828F",
+                    gap: "8px",
+                },
+                cellRenderer: function (params) {
+                    const container = document.createElement("div");
+
+                    if (params.data.isEditing) {
+                        // ✅ Save Button
+                        const saveBtn = document.createElement("button");
+                        saveBtn.innerHTML = `<i class="ri-check-line"></i>`;
+                        saveBtn.className = "save-btn";
+                        saveBtn.onclick = () => {
+                            params.data.isEditing = false;
+                            params.api.stopEditing();
+                            params.api.refreshCells({ force: true });
+                        };
+                        container.appendChild(saveBtn);
+
+
+                        const cancelBtn = document.createElement("button");
+                        cancelBtn.innerHTML = `<i class="ri-close-line"></i>`;
+                        cancelBtn.className = "cancel-btn";
+                        cancelBtn.onclick = () => {
+                            console.log("Cancelling...");
+                            params.data.isEditing = false;
+                            params.api.stopEditing(true);
+
+                            params.api.refreshCells({ force: true });
+                        };
+                        container.appendChild(cancelBtn);
+                    } else {
+                        const editBtn = document.createElement("button");
+                        editBtn.innerHTML = `<i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span>`;
+                        editBtn.className = "edit-btn";
+                        editBtn.onclick = () => {
+                            params.data.isEditing = true;
+                            params.api.refreshCells({ force: true });
+                            params.api.startEditingCell({
+                                rowIndex: params.rowIndex,
+                                colKey: "name"
+                            });
+                        };
+                        container.appendChild(editBtn);
+                    }
+
+                    return container;
+                }
+            }
+
+        ];
+
+        const rowData = [
+            { zoneName: "East", zoneCode: "EZ", subZoneName: "E", subZoneCode: "3", ROName: "GUW", ROCode: "3546" },
+            { zoneName: "West", zoneCode: "WZ", subZoneName: "W", subZoneCode: "4", ROName: "PNQ", ROCode: "2258" },
+            { zoneName: "South", zoneCode: "SZ", subZoneName: "S", subZoneCode: "5", ROName: "COK", ROCode: "1768" },
+            { zoneName: "North", zoneCode: "NZ", subZoneName: "N", subZoneCode: "6", ROName: "NAG", ROCode: "1956" },
+            { zoneName: "Central", zoneCode: "CZ", subZoneName: "C", subZoneCode: "7", ROName: "IND", ROCode: "8970" },
+            { zoneName: "West", zoneCode: "WZ", subZoneName: "W", subZoneCode: "4", ROName: "NAG", ROCode: "1956" },
+            { zoneName: "South", zoneCode: "SZ", subZoneName: "S", subZoneCode: "5", ROName: "IND", ROCode: "8970" },
+            { zoneName: "Central", zoneCode: "CZ", subZoneName: "C", subZoneCode: "C", ROName: "NAG", ROCode: "1956" },
+            { zoneName: "Central", zoneCode: "CZ", subZoneName: "C", subZoneCode: "C", ROName: "NAG", ROCode: "1956" },
+            { zoneName: "Central", zoneCode: "CZ", subZoneName: "C", subZoneCode: "C", ROName: "IND", ROCode: "8970" },
+
+        ];
+
+        const gridOptions = {
+            columnDefs,
+            rowData,
+            pagination: true,
+            paginationPageSize: 20,
+            domLayout: 'autoHeight',
+            editType: "fullRow",
+            rowHeight: 40,
+        };
+        var gridDiv = document.querySelector("#ROGrid");
+        new agGrid.Grid(gridDiv, gridOptions);
+    });
+</script>
