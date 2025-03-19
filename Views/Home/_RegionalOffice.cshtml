@@ -1,20 +1,90 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
+<link rel="stylesheet" href="~/css/master-data.css" asp-append-version="true" />
 
-<div id="ROGrid" class="ag-theme-alpine"></div>
+<div id="ROGrid" class="ag-theme-alpine">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar3" aria-labelledby="addUserSidebarLabel">
+        <div class="offcanvas-header p-4">
+            <div class="d-flex flex-column gap-2">
+                <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
+                <h5 class="offcanvas-title" id="addUserSidebarLabel">Add Regional Office</h5>
+                <p class="m-0">Enter below details to Zone-Sub zone- RO</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="d-flex RO-zone-dropdown">
+                <div class="mb-3">
+                    <label class="form-label">Zone</label>
+                    <select class="form-select select-option">
+                        <option>Select</option>
+                        <option>East-EZ</option>
+                        <option>West-WZ</option>
+                        <option>Central-CZ</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Sub-Zone</label>
+                    <select class="form-select select-option">
+                        <option>Select</option>
+                        <option>E-3</option>
+                        <option>W-2</option>
+                        <option>C-7</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Sector - Sub Sector</label>
+                <select class="form-select">
+                    <option>Select</option>
+                    <option>SPB-Industry</option>
+                    <option>SPB-Retail</option>
+                    <option>SPB-CSS</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-between items-center">
+                <div class="RO-title">Regional Office</div>
+                <button id="addFieldBtn2">Add</button>
+            </div>
+            <form class="d-flex flex-column form-class" id="zoneForm">
+                <div id="dynamicFieldsContainer2"></div>
+            </form>
 
-<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
+        </div>
+        <div class="d-flex justify-content-end p-4 user-buttons">
+            <button type="button" class="btn btn-outline-dark me-2 cancel-button"
+                data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-warning  add-button" onclick="showToast()">Save</button>
+        </div>
+    </div>
+</div>
 
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         const columnDefs = [
-            { headerName: "Zone Name", field: "zoneName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Zone Code", field: "zoneCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Sub-Zone Name", field: "subZoneName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Sub-Zone Code", field: "subZoneCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "RO Name", field: "ROName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "RO Code", field: "ROCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            {
+                headerName: "Zone Name", field: "zoneName", sortable: true,
+                floatingFilter: true, editable: true, cellEditor: "agTextCellEditor", filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "Zone Code", field: "zoneCode", sortable: true,
+                floatingFilter: true, editable: true, cellEditor: "agTextCellEditor", filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "Sub-Zone Name", field: "subZoneName", sortable: true,
+                floatingFilter: true, editable: true, cellEditor: "agTextCellEditor", filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "Sub-Zone Code", field: "subZoneCode", sortable: true, filter: true,
+                floatingFilter: true, cellEditor: "agTextCellEditor", editable: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "RO Name", field: "ROName", sortable: true, filter: true, resizable: true,
+                floatingFilter: true, cellEditor: "agTextCellEditor", editable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "RO Code", field: "ROCode", sortable: true, filter: true, resizable: true,
+                floatingFilter: true, cellEditor: "agTextCellEditor", editable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
             {
                 headerName: "Action",
                 field: "action",
@@ -65,7 +135,7 @@
                             params.api.refreshCells({ force: true });
                             params.api.startEditingCell({
                                 rowIndex: params.rowIndex,
-                                colKey: "name"
+                                colKey: "zoneName"
                             });
                         };
                         container.appendChild(editBtn);
@@ -102,5 +172,32 @@
         };
         var gridDiv = document.querySelector("#ROGrid");
         new agGrid.Grid(gridDiv, gridOptions);
+        let fieldCount = 0;
+        document.getElementById('addFieldBtn2').addEventListener('click', () => {
+            fieldCount++;
+
+            const container = document.createElement('div');
+            container.classList.add('field-group', 'mb-3');
+
+            container.innerHTML = `
+        <div class="d-flex align-items-end gap-2">
+            <div class="flex-grow-1">
+                <input type="text" class="form-control" name="ROName${fieldCount}" placeholder="Enter RO Name">
+            </div>
+            <div class="flex-grow-1">
+                <input type="text" class="form-control" name="ROCode${fieldCount}" placeholder="Enter RO Code">
+            </div>
+                <i class="ri-delete-bin-line remove-btn"></i>
+        </div>
+    `;
+
+            // Add to container
+            document.getElementById('dynamicFieldsContainer2').appendChild(container);
+
+            // Add remove functionality
+            container.querySelector('.remove-btn').addEventListener('click', () => {
+                container.remove();
+            });
+        });
     });
 </script>

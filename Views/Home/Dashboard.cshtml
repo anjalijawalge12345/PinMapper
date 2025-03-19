@@ -2,86 +2,112 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 <div class="dashboard">
-        <header>
-    <h2 class="dashboard_title">Dashboard</h2>
-    <div class="header-right">
-        <img src="~/images/bell with badge.png" alt="notification" class="notification_image">
-        <div class="user-info">
-            <img src="~/images/Ellipse 269.png" alt="user">
-            <div class="user-details">
-                <span class="username">Ranjan PM</span>
-                <small class="user-designation">Super Admin</small>
-            </div>
-            <!-- Dropdown Menu -->
-            <div class="dropdown">
-                <button class="dropdown_toggle" onclick="toggleDropdown()"><i class="ri-arrow-drop-down-line"></i></button>
-                <ul class="dropdown-menu">
-                     <li><a href="#">Profile</a></li>
-                      <li><a href="#">Help & Settings</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
+    <header>
+        <h2 class="dashboard_title">Dashboard</h2>
+        <div class="header-right">
+            <img src="~/images/bell with badge.png" alt="notification" class="notification_image">
+            <div class="user-info">
+                <img src="~/images/Ellipse 269.png" alt="user">
+                <div class="user-details">
+                    <span class="username">Ranjan PM</span>
+                    <small class="user-designation">Super Admin</small>
+                </div>
+                <!-- Dropdown Menu -->
+                <div class="dropdown">
+                    <button class="dropdown_toggle" onclick="toggleDropdown()"><i
+                            class="ri-arrow-drop-down-line"></i></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Help & Settings</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-
-       
+    </header>
 
 
-<div class="filters">
-    <select id="state" class="select2">
-        <option value="">Select State</option>
-        <option value="maharashtra">Maharashtra</option>
-        <option value="uttar_pradesh">Uttar Pradesh</option>
-    </select>
-    <select id="district" class="select2">
-        <option value="">Select District</option>
-        <option value="pune">Pune</option>
-        <option value="mumbai">Mumbai</option>
-        <option value="lucknow">Lucknow</option>
-        <option value="varanasi">Varanasi</option>
-    </select>
-    <select id="tehsil" class="select2">
-        <option value="">Select Tehsil</option>
-        <option value="haveli">Haveli</option>
-        <option value="mulshi">Mulshi</option>
-        <option value="bhor">Bhor</option>
-        <option value="andheri">Andheri</option>
-        <option value="bandra">Bandra</option>
-        <option value="dadar">Dadar</option>
-        <option value="sadar">Sadar</option>
-        <option value="mohanlalganj">Mohanlalganj</option>
-        <option value="bakshi">Bakshi Ka Talab</option>
-        <option value="kashi">Kashi</option>
-        <option value="ramnagar">Ramnagar</option>
-        <option value="sarnath">Sarnath</option>
-    </select>
 
-    <div class="buttons">
-        <button id="reset">Reset</button>
-        <button id="apply">Apply</button>
-    </div>
-</div>
-        <div class="stats">
-            
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Countries</h1><h4 class="card-subtitle">Country</h4></div> <img src="~/images/dashboard/image1.png" class="card-image"></div>
-            
-            
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.States</h1><h4 class="card-subtitle">Total States</h4></div><img src="~/images/dashboard/image2.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Districts</h1><h4 class="card-subtitle">District</h4></div><img src="~/images/dashboard/image3.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Tehsils</h1><h4 class="card-subtitle">Tehsil</h4></div><img src="~/images/dashboard/image4.png" class="card-image"></div>
-            <div class="stat-box"><div class="card-details"><h1 class="card-header">@Model.Pins</h1><h4 class="card-subtitle">Total PIN Codes</h4></div><img src="~/images/dashboard/image5.png" class="card-image"></div>
+
+    <div class="filters">
+        <select id="state" class="select2">
+            <option value="">Select State</option>
+            <option value="maharashtra">Maharashtra</option>
+            <option value="uttar_pradesh">Uttar Pradesh</option>
+        </select>
+        <select id="district" class="select2">
+            <option value="">Select District</option>
+            <option value="pune">Pune</option>
+            <option value="mumbai">Mumbai</option>
+            <option value="lucknow">Lucknow</option>
+            <option value="varanasi">Varanasi</option>
+        </select>
+        <select id="tehsil" class="select2">
+            <option value="">Select Tehsil</option>
+            <option value="haveli">Haveli</option>
+            <option value="mulshi">Mulshi</option>
+            <option value="bhor">Bhor</option>
+            <option value="andheri">Andheri</option>
+            <option value="bandra">Bandra</option>
+            <option value="dadar">Dadar</option>
+            <option value="sadar">Sadar</option>
+            <option value="mohanlalganj">Mohanlalganj</option>
+            <option value="bakshi">Bakshi Ka Talab</option>
+            <option value="kashi">Kashi</option>
+            <option value="ramnagar">Ramnagar</option>
+            <option value="sarnath">Sarnath</option>
+        </select>
+
+        <div class="buttons">
+            <button id="reset">Reset</button>
+            <button id="apply">Apply</button>
         </div>
-     
+    </div>
+    <div class="stats">
+
+        <div class="stat-box">
+            <div class="card-details">
+                <h1 class="card-header">@Model.Countries</h1>
+                <h4 class="card-subtitle">Country</h4>
+            </div> <img src="~/images/dashboard/image1.png" class="card-image">
+        </div>
 
 
-        @* <div class="container-fluid mt-4 p-0">
+        <div class="stat-box">
+            <div class="card-details">
+                <h1 class="card-header">@Model.States</h1>
+                <h4 class="card-subtitle">Total States</h4>
+            </div><img src="~/images/dashboard/image2.png" class="card-image">
+        </div>
+        <div class="stat-box">
+            <div class="card-details">
+                <h1 class="card-header">@Model.Districts</h1>
+                <h4 class="card-subtitle">District</h4>
+            </div><img src="~/images/dashboard/image3.png" class="card-image">
+        </div>
+        <div class="stat-box">
+            <div class="card-details">
+                <h1 class="card-header">@Model.Tehsils</h1>
+                <h4 class="card-subtitle">Tehsil</h4>
+            </div><img src="~/images/dashboard/image4.png" class="card-image">
+        </div>
+        <div class="stat-box">
+            <div class="card-details">
+                <h1 class="card-header">@Model.Pins</h1>
+                <h4 class="card-subtitle">Total PIN Codes</h4>
+            </div><img src="~/images/dashboard/image5.png" class="card-image">
+        </div>
+    </div>
+
+
+
+    @* <div class="container-fluid mt-4 p-0">
 <div class="row">
     <div class="col">
         <!-- PIN Code Data Statistics -->
@@ -116,69 +142,69 @@
 </div>
 </div> *@
 
-<div class="container-fluid mt-4 p-0">
-    <div class="row d-flex">
-        <!-- Charts Section (Flex Column) -->
-        <div class="col-md-6 d-flex flex-column gap-4">
-            <!-- PIN Code Data Statistics -->
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="card-title">PIN Code Data Statistics</h3>
-                    <h5 class="view-all">View All</h5>
+    <div class="container-fluid mt-4 p-0">
+        <div class="row d-flex">
+            <!-- Charts Section (Flex Column) -->
+            <div class="col-md-6 d-flex flex-column gap-4">
+                <!-- PIN Code Data Statistics -->
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">PIN Code Data Statistics</h3>
+                        <h5 class="view-all">View All</h5>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <svg id="pinChart" width="300" height="300"></svg>
+                        <div class="legend mt-3" id="pinLegend"></div>
+                    </div>
                 </div>
-                <div class="d-flex align-items-center">
-                    <svg id="pinChart" width="300" height="300"></svg>
-                    <div class="legend mt-3" id="pinLegend"></div>
+
+                <!-- Workflow Summary -->
+                <div class="card p-4">
+                    <h3 class="card-title">Workflow Summary</h3>
+                    <div class="d-flex align-items-center">
+                        <svg id="workflowChart" width="300" height="300"></svg>
+                        <div class="legend mt-3" id="workflowLegend"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Workflow Summary -->
-            <div class="card p-4">
-                <h3 class="card-title">Workflow Summary</h3>
-                <div class="d-flex align-items-center">
-                    <svg id="workflowChart" width="300" height="300"></svg>
-                    <div class="legend mt-3" id="workflowLegend"></div>
+            <!-- Map Section (Next to Charts in Row) -->
+            <div class="col-md-6">
+                <div class="card p-4" style="height: 100%;">
+                    <h3>Pin Code Changes</h3>
+                    <div id="map" style="height: 100%;"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Map Section (Next to Charts in Row) -->
-        <div class="col-md-6">
-            <div class="card p-4" style="height: 100%;">
-                <h3>Pin Code Changes</h3>
-                <div id="map" style="height: 100%;"></div>
             </div>
         </div>
     </div>
+
 </div>
 
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="../js/dashboard.js" defer></script>
-      <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="../js/dashboard.js" defer></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-             var map = L.map('map', {
-        attributionControl: false // This removes the attribution
-    }).setView([22.9734, 78.6569], 4.5); // Center on India
+        var map = L.map('map', {
+            attributionControl: false // This removes the attribution
+        }).setView([22.9734, 78.6569], 4.5); // Center on India
 
-         // Add OpenStreetMap tile layer
-         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-             attribution: '&copy; OpenStreetMap contributors'
-         }).addTo(map);
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-         // Get Pincode locations from Model
-         var locations = @Html.Raw(Json.Serialize(Model.PincodeLocations));
+        // Get Pincode locations from Model
+        var locations = @Html.Raw(Json.Serialize(Model.PincodeLocations));
 
-         locations.forEach(function (location) {
-             L.marker([location.latitude, location.longitude])
-                 .addTo(map)
-                 .bindPopup("<b>Pincode:</b> " + location.pincode + "<br>" + location.information);
-         });
-     });
+        locations.forEach(function (location) {
+            L.marker([location.latitude, location.longitude])
+                .addTo(map)
+                .bindPopup("<b>Pincode:</b> " + location.pincode + "<br>" + location.information);
+        });
+    });
 </script>
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

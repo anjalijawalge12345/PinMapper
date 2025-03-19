@@ -190,6 +190,10 @@
     gap: 2rem;
 }
 
+.RO-zone-dropdown{
+    gap: 44px;
+}
+
 .offcanvas-title{
     color: #353535;
     font-size: 18px;
@@ -278,3 +282,52 @@
     .form-check-input:checked[type=radio] {
     --bs-form-check-bg-image: none !important;
 }
+.save-btn{
+    background: none;
+    border: none;
+    color: green;
+    font-size: 20px;
+}
+
+.cancel-btn{
+ background: none;
+    border: none;
+    color:red;
+    font-size: 20px;
+}
+
+    #editBtn1 {
+        padding: 8px;
+        border: none;
+        background-color: #333335;
+        color: #E0F049;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        gap: 4px;
+    }
+
+    .zone-title,.subZone-title,.RO-title{
+        font-size: 18px;
+        font-weight: 500;
+    color: #333335;
+    }
+
+    #addFieldBtn,#addFieldBtn1,#addFieldBtn2{
+        padding: 9px 10px;
+        border: 1px solid #333335;
+        height: 34px;
+        width: 60px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333335;
+        border-radius: 4px;
+        background: white;
+    }
+    .ri-delete-bin-line{
+        font-size: 16px;
+        margin-bottom: 1rem;
+        color: #FF7063;
+    }

@@ -1,18 +1,64 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
+<link rel="stylesheet" href="~/css/master-data.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-grid.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-theme-alpine.css" />
+<div id="subZoneGrid" class="ag-theme-alpine">
 
-<div id="subZoneGrid" class="ag-theme-alpine"></div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar2" aria-labelledby="addUserSidebarLabel">
+        <div class="offcanvas-header p-4">
+            <div class="d-flex flex-column gap-2">
+                <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
+                <h5 class="offcanvas-title" id="addUserSidebarLabel">Add Sub-Zone</h5>
+                <p class="m-0">Add multiple Zones</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="mb-3">
+                <label class="form-label">Zone</label>
+                <select class="form-select">
+                    <option>Select</option>
+                    <option>East-EZ</option>
+                    <option>West-WZ</option>
+                    <option>Central-CZ</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-between items-center">
+                <div class="subZone-title">Sub-Zone</div>
+                <button id="addFieldBtn1">Add</button>
+            </div>
+            <form class="d-flex flex-column form-class" id="zoneForm">
+                <div id="dynamicFieldsContainer1"></div>
+            </form>
 
-<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
-
+        </div>
+        <div class="d-flex justify-content-end p-4 user-buttons">
+            <button type="button" class="btn btn-outline-dark me-2 cancel-button"
+                data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-warning  add-button" onclick="showToast()">Save</button>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/dist/ag-grid-community.min.js"></script>
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         const columnDefs = [
-            { headerName: "Zone Name", field: "zoneName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Zone Code", field: "zoneCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Sub-Zone Name", field: "subZoneName", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Sub-Zone Code", field: "subZoneCode", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            {
+                headerName: "Zone Name", field: "zoneName", editable: true, filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
+                floatingFilter: true, cellEditor: "agTextCellEditor", sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "Zone Code", field: "zoneCode", editable: true, filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
+                floatingFilter: true, sortable: true, cellEditor: "agTextCellEditor", filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "Sub-Zone Name", field: "subZoneName", editable: true, filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
+                floatingFilter: true, sortable: true, cellEditor: "agTextCellEditor", filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
+            {
+                headerName: "Sub-Zone Code", field: "subZoneCode", editable: true, filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
+                floatingFilter: true, sortable: true, cellEditor: "agTextCellEditor", filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+            },
             {
                 headerName: "Action",
                 field: "action",
@@ -63,7 +109,7 @@
                             params.api.refreshCells({ force: true });
                             params.api.startEditingCell({
                                 rowIndex: params.rowIndex,
-                                colKey: "name"
+                                colKey: "zoneName"
                             });
                         };
                         container.appendChild(editBtn);
@@ -103,5 +149,33 @@
         };
         var gridDiv = document.querySelector("#subZoneGrid");
         new agGrid.Grid(gridDiv, gridOptions);
+        let fieldCount = 0;
+
+        document.getElementById('addFieldBtn1').addEventListener('click', () => {
+            fieldCount++;
+
+            const container = document.createElement('div');
+            container.classList.add('field-group', 'mb-3');
+
+            container.innerHTML = `
+        <div class="d-flex align-items-end gap-2">
+            <div class="flex-grow-1">
+                <input type="text" class="form-control" name="subZoneName${fieldCount}" placeholder="Enter SubZone Name">
+            </div>
+            <div class="flex-grow-1">
+                <input type="text" class="form-control" name="subZoneCode${fieldCount}" placeholder="Enter SubZone Code">
+            </div>
+           <i class="ri-delete-bin-line remove-btn"></i>
+        </div>
+    `;
+
+            // Add to container
+            document.getElementById('dynamicFieldsContainer1').appendChild(container);
+
+            // Add remove functionality
+            container.querySelector('.remove-btn').addEventListener('click', () => {
+                container.remove();
+            });
+        });
     });
 </script>

@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="~/css/master-data.css" asp-append-version="true" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+<!-- AG Grid Styles (v31+) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-grid.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-theme-alpine.css" />
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
 <div class="master-data">
     <div class="master-data-container">
@@ -30,7 +32,7 @@
 
         <div class="filter-buttons">
             <button class="active">Workflow Definition</button>
-            <button class="new-tab">Zone - Sub Zone -- RO</button>
+            <button class="new-tab">Zone - Sub Zone - RO</button>
             <button>Function</button>
             <button>District Code</button>
         </div>
@@ -53,10 +55,10 @@
                     <label class="form-check-label" for="regionalOffice">Regional Office <span
                             class="count">(300)</span></label>
                 </div>
-
-                <button id="editBtn" class="ms-auto add-btn d-flex align-items-center">
-                    <i class="ri-add-circle-line"></i> Add Zone
+                <button id="editBtn1" class="ms-auto add-btn d-flex align-items-center">
+                    <i class="ri-add-circle-line me-1"></i> Add <span id="addLabel">Zone</span>
                 </button>
+
             </div>
         </div>
         <div id="zoneContainer" style="display: none;">
@@ -64,6 +66,7 @@
                 await Html.RenderPartialAsync("_Zone");
             }
         </div>
+
         <div id="subZoneContainer" style="display: none;">
             @{
                 await Html.RenderPartialAsync("_SubZone");
@@ -144,6 +147,8 @@
 </div>
 @section Scripts
 {
+
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
     <script>
 
 
@@ -160,9 +165,9 @@
                 cellRenderer: function (params) {
                     return params.value.map(approver =>
                         `<div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="level-badge level-${approver.level}">Level ${approver.level}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="level-badge level-${approver.level}">Level ${approver.level}</span>
                 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>`
                     ).join('');
                 }
             }, {
@@ -170,14 +175,14 @@
                 headerName: "",
                 resizable: true,
                 sortable: true,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @* width:150, *@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @* width:150, *@
             cellRenderer: function (params) {
                 if (!params.data.approvers) return "";
                 return params.data.approvers
                     .map(approver => `<div>${approver.name || ""}</div>`)
                     .join('');
             }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }, {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }, {
             field: "approverEmail",
                 headerName: "",
                     resizable: true,
@@ -196,7 +201,7 @@
                 return `<button class="edit-btn"><i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span></button>`;
             }
         }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ];
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ];
 
         const workflowRowData = [
             { name: "Workflow ABC", function: "Retail", level: 2, approvers: [{ level: 2, name: "Ashish Solanki", email: "Ashish***ki@kbl.com" }, { level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] },
@@ -232,9 +237,9 @@
             { name: "Workflow MNO", function: "Industry", level: 2, approvers: [{ level: 1, name: "Amey Patwardhan", email: "Amey***an@kbl.com" }] }
         ];
         const functionColumnDefs = [
-            { headerName: "Function", field: "function", sortable: true, width: 600, resizable: true, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Created Date", field: "createdDate", sortable: true, width: 400, resizable: true, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Created By", field: "createdBy", sortable: true, resizable: true, width: 600, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } }
+            { headerName: "Function", field: "function", sortable: true, floatingFilter: true, width: 600, resizable: true, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Created Date", field: "createdDate", sortable: true, width: 400, floatingFilter: true, resizable: true, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Created By", field: "createdBy", sortable: true, resizable: true, floatingFilter: true, width: 600, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } }
         ]; // ✅ semicolon here
 
         const functionRowData = [
@@ -245,9 +250,9 @@
         ];
 
         const districtCodeColumnDefs = [
-            { headerName: "District Code", field: "title", filter: true, width: 600, filter: true, sortable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Created Date", field: "date", sortable: true, width: 400, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
-            { headerName: "Created By", field: "creator", sortable: true, width: 600, filter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } }
+            { headerName: "District Code", field: "title", filter: true, width: 600, floatingFilter: true, filter: true, sortable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Created Date", field: "date", sortable: true, width: 400, filter: true, floatingFilter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } },
+            { headerName: "Created By", field: "creator", sortable: true, width: 600, filter: true, floatingFilter: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" } }
         ];
 
         const districtCodeRowData = [
@@ -301,10 +306,10 @@
             onGridReady: function (params) {
                 params.api.sizeColumnsToFit();
             },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @* onPaginationChanged: function() {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @* onPaginationChanged: function() {
         updatePaginationText();
     } *@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    };
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                };
 
         document.addEventListener('DOMContentLoaded', function () {
             const gridDiv = document.querySelector("#myGrid");
@@ -345,7 +350,7 @@
             }
         }, 100);
     } *@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                });
 
         function onFilterTextBoxChanged() {
             workflowGridOptions.api.setQuickFilter(document.getElementById('searchBox').value);
@@ -366,27 +371,34 @@
         const subZoneContainer = document.querySelector("#subZoneContainer");
         const ROContainer = document.querySelector("#ROContainer");
         const radios = document.querySelectorAll('input[name="level"]');
+        const editBtn1 = document.getElementById("editBtn1");
+        const addLabel = document.getElementById("addLabel");
 
         function updateContainerDisplay() {
-            // Hide all containers first
             zoneContainer.style.display = "none";
             subZoneContainer.style.display = "none";
             ROContainer.style.display = "none";
-
-            // Show only the selected one
             if (document.getElementById("zone").checked) {
                 zoneContainer.style.display = "block";
+                addLabel.textContent = "Zone";
+                editBtn1.setAttribute("data-bs-toggle", "offcanvas");
+                editBtn1.setAttribute("data-bs-target", "#addUserSidebar1");
             } else if (document.getElementById("subZone").checked) {
                 subZoneContainer.style.display = "block";
+                addLabel.textContent = "Sub-Zone";
+                editBtn1.setAttribute("data-bs-toggle", "offcanvas");
+                editBtn1.setAttribute("data-bs-target", "#addUserSidebar2");
             } else if (document.getElementById("regionalOffice").checked) {
                 ROContainer.style.display = "block";
+                addLabel.textContent = "RO";
+                editBtn1.setAttribute("data-bs-toggle", "offcanvas");
+                editBtn1.setAttribute("data-bs-target", "#addUserSidebar3");
             }
+            editBtn1.setAttribute("data-bs-toggle", "offcanvas");
         }
         radios.forEach(radio => {
             radio.addEventListener("change", updateContainerDisplay);
         });
-
-        // ✅ Show correct container on initial page load
         updateContainerDisplay();
 
         myGrid.style.display = "block";
@@ -399,15 +411,10 @@
         ROContainer.style.display = "none";
         filterButtons.forEach((button, index) => {
             button.addEventListener("click", function () {
-                // Remove previous active class and add to current
                 document.querySelector(".filter-buttons .active")?.classList.remove("active");
                 this.classList.add("active");
-
-                // Toggle search container visibility
                 const hideSearchFor = [1, 2, 3];
                 searchContainer.style.display = hideSearchFor.includes(index) ? "none" : "flex";
-
-                // Hide all sections first
                 myGrid.style.display = "none";
                 functionGrid.style.display = "none";
                 disrictCodeGrid.style.display = "none";
