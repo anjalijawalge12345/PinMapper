@@ -1,14 +1,16 @@
 <link rel="stylesheet" href="~/css/master-data.css" asp-append-version="true" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-grid.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-theme-alpine.css" />
-<div id="subZoneGrid" class="ag-theme-alpine">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.2.1/styles/ag-theme-quartz.css" />
+<div id="subZoneGrid" class="ag-theme-quartz">
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar2" aria-labelledby="addUserSidebarLabel">
         <div class="offcanvas-header p-4">
-            <div class="d-flex flex-column gap-2">
-                <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
-                <h5 class="offcanvas-title" id="addUserSidebarLabel">Add Sub-Zone</h5>
-                <p class="m-0">Add multiple Zones</p>
+            <div class="d-flex gap-2">
+                <img src="~/images/zoneicon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
+                <div class="d-flex flex-column">
+                    <h5 class="offcanvas-title" id="addUserSidebarLabel">Add Sub-Zone</h5>
+                    <p class="m-0">Add multiple Sub-Zones</p>
+                </div>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -23,8 +25,11 @@
                 </select>
             </div>
             <div class="d-flex justify-content-between items-center">
-                <div class="subZone-title">Sub-Zone</div>
-                <button id="addFieldBtn1">Add</button>
+                <div class="d-flex  gap-2 items-center">
+                    <div class="zone-title">Sub-Zone</div>
+                    <div id="subZoneErrorMessage" class="text-danger mb-3" style="display: none;"></div>
+                </div>
+                <button id="subZoneAddFieldButton" class="add-level-button">Add</button>
             </div>
             <form class="d-flex flex-column form-class" id="zoneForm">
                 <div id="dynamicFieldsContainer1"></div>
@@ -151,7 +156,19 @@
         new agGrid.Grid(gridDiv, gridOptions);
         let fieldCount = 0;
 
-        document.getElementById('addFieldBtn1').addEventListener('click', () => {
+        document.getElementById('subZoneAddFieldButton').addEventListener('click', () => {
+            const errorDiv = document.getElementById('subZoneErrorMessage');
+            const addButton = document.getElementById('subZoneAddFieldButton');
+            if (fieldCount >= 10) {
+                addButton.disabled = true;
+                errorDiv.innerText = "You cannot add more than 10 zones.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            // Clear error if previously shown
+            errorDiv.innerText = "";
+            errorDiv.style.display = "none";
             fieldCount++;
 
             const container = document.createElement('div');

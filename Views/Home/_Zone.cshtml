@@ -1,20 +1,38 @@
 <link rel="stylesheet" href="~/css/master-data.css" asp-append-version="true" />
 
 
-<div id="zoneGrid" class="ag-theme-alpine">
+<div id="zoneGrid" class="ag-theme-quartz">
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+        <div id="saveToast" class="toast custom-toast align-items-center text-white border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="ri-checkbox-circle-fill"></i>
+                    <div> User Details Updated Successfully</div>
+                </div>
+                <button type="button" class=" toast-close me-2 m-auto toast_close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar1" aria-labelledby="addUserSidebarLabel">
         <div class="offcanvas-header p-4">
-            <div class="d-flex flex-column gap-2">
-                <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
-                <h5 class="offcanvas-title" id="addUserSidebarLabel">Add Zone</h5>
-                <p class="m-0">Add multiple Zones</p>
+            <div class="d-flex gap-2">
+                <img src="~/images/zoneicon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
+                <div class="d-flex flex-column">
+                    <h5 class="offcanvas-title" id="addUserSidebarLabel">Add Zone</h5>
+                    <p class="m-0">Add multiple Zones</p>
+                </div>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="d-flex justify-content-between items-center">
-                <div class="zone-title">Zone</div>
-                <button id="addFieldBtn">Add</button>
+                <div class="d-flex  gap-2 items-center">
+                    <div class="zone-title">Zone</div>
+                    <div id="errorMessage" class="text-danger mb-3" style="display: none;"></div>
+                </div>
+                <button id="addFieldBtn" class="add-level-button">Add</button>
             </div>
             <form class="d-flex flex-column form-class" id="zoneForm">
                 <div id="dynamicFieldsContainer"></div>
@@ -25,20 +43,27 @@
         <div class="d-flex justify-content-end p-4 user-buttons">
             <button type="button" class="btn btn-outline-dark me-2 cancel-button"
                 data-bs-dismiss="offcanvas">Cancel</button>
-            <button type="button" class="btn btn-warning  add-button" onclick="showToast()">Save</button>
+            <button type="button" class="btn btn-warning  add-button" data-bs-dismiss="offcanvas"
+                id="zoneSidebarSaveButton" onclick="showToast()">Add</button>
         </div>
     </div>
 </div>
 <script>
+    function showToast() {
+        const toastElement = document.getElementById("saveToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
     window.addEventListener('DOMContentLoaded', function () {
+
         const columnDefs = [
             {
-                headerName: "Zone Name", field: "zoneName", cellEditor: "agTextCellEditor", filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
-                floatingFilter: true, sortable: true, filter: true, resizable: true, editable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+                headerName: "Zone Name", field: "zoneName", cellEditor: "agTextCellEditor", filter: true, suppressHeaderMenuButton: true,
+                floatingFilter: true, sortable: true, resizable: true, editable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
             },
             {
-                headerName: "Zone Code", field: "zoneCode", cellEditor: "agTextCellEditor", filter: "agSetColumnFilter", // Ensure this is set for miniFilter support
-                floatingFilter: true, sortable: true, filter: true, editable: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+                headerName: "Zone Code", field: "zoneCode", cellEditor: "agTextCellEditor", filter: "agNumberColumnFilter",
+                floatingFilter: true, sortable: true, editable: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
             },
             {
                 headerName: "Action",
@@ -121,6 +146,13 @@
             paginationPageSize: 40,
             domLayout: 'autoHeight',
             editType: "fullRow",
+            defaultColDef: {
+                flex: 1,
+                minWidth: 150,
+                filter: true,
+                floatingFilter: true,
+                suppressHeaderMenuButton: true,
+            },
             rowHeight: 40,
             onGridReady: function (params) {
                 params.api.sizeColumnsToFit();
@@ -131,7 +163,35 @@
 
         let fieldCount = 0;
 
+        const zoneSidebarSaveButton = document.getElementById('zoneSidebarSaveButton');
+        @* if (fieldCount == 0) { zoneSidebarSaveButton.disabled = true; } *@
+            zoneSidebarSaveButton.disabled = true;
+        const validateFields = () => {
+            const allInputs = document.querySelectorAll('#dynamicFieldsContainer input');
+            let allFilled = true;
+            allInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+
+            // Enable Save button only if all inputs are filled and at least one field exists
+            zoneSidebarSaveButton.disabled = !(fieldCount > 0 && allFilled);
+        };
         document.getElementById('addFieldBtn').addEventListener('click', () => {
+            const errorDiv = document.getElementById('errorMessage');
+            const addButton = document.getElementById('addFieldBtn');
+            console.log(fieldCount)
+            if (fieldCount >= 10) {
+                addButton.disabled = true;
+                errorDiv.innerText = "You cannot add more than 10 zones.";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            // Clear error if previously shown
+            errorDiv.innerText = "";
+            errorDiv.style.display = "none";
             fieldCount++;
 
             const container = document.createElement('div');
@@ -151,8 +211,30 @@
         `;
 
             document.getElementById('dynamicFieldsContainer').appendChild(container);
+            if (fieldCount > 0) {
+                zoneSidebarSaveButton.disabled = false;
+            }
+            const inputs = container.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', validateFields);
+            });
+
+            // Trigger initial validation
+            validateFields();
             container.querySelector('.remove-btn').addEventListener('click', () => {
                 container.remove();
+                fieldCount--;
+                console.log("remove", fieldCount)
+                if (fieldCount < 10) {
+                    addButton.disabled = false;
+                    errorDiv.style.display = "none";
+                }
+
+                // Disable Save button if no fields exist
+                if (fieldCount === 0) {
+                    zoneSidebarSaveButton.disabled = true;
+                }
+                validateFields();
             });
         });
     });
