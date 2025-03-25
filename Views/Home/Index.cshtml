@@ -4,6 +4,7 @@
 
 <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" asp-append-version="true" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <div class="bg">
     <div class="login-container">
@@ -12,36 +13,53 @@
                 <img src="~/images/KBL LOGO_Wht.png" class="logo-image" alt="Logo" />
             </div>
             <div class="login-header">Welcome back!</div>
-            <div class="login-subtext">Enter your Credentials to access your account</div>
-            <div class="input-button-container">
-                <div class="d-flex flex-column gap-4">
-                    <div class="input-group">
-                        <i class="ri-mail-fill"></i>
-                        <input type="email" name="email" class="login-input" placeholder="Enter your email"
-                            autocomplete="off" required />
+            <div class="login-form">
+                <div class="login-subtext">Enter your Credentials to access your account</div>
+                <form class="form">
+                    @* <div class="input-button-container"> *@
+                    <div class="form-fields">
+                        <div class="input-group">
+                            <img src="~/images/login_screen_icons/email.png" class="input-icon" />
+                            <input type=" email" name="email" class="login-input" placeholder="Enter your email"
+                                autocomplete="off" required />
+                        </div>
+                        <div class="input-group1">
+                            <img src="~/images/login_screen_icons/password.png" class="input-icon" />
+                            <input type="password" name="password" id="passwordInput" class="password-input"
+                                placeholder="Enter your password" autocomplete="off" required />
+                            <i class="ri-eye-off-line toggle-password" id="togglePassword"
+                                style="cursor: pointer; color: #74828F;"></i>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <i class="ri-lock-fill"></i>
-                        <input type="email" name="email" class="login-input" placeholder="Enter your password"
-                            autocomplete="off" required />
+                    @* </div> *@
+                    <div class="enter-otp-section" id="otpSection" style="display: none;">
+                        <div class="otp">
+                            <div class="otp-section">
+                                <div class="enter-otp-title">Enter OTP</div>
+                                <div class="otp-container">
+                                    <input type="text" class="otp-input" maxlength="1" />
+                                    <input type="text" class="otp-input" maxlength="1" />
+                                    <input type="text" class="otp-input" maxlength="1" />
+                                    <input type="text" class="otp-input" maxlength="1" />
+                                    <input type="text" class="otp-input" maxlength="1" />
+                                    <input type="text" class="otp-input" maxlength="1" />
+                                </div>
+                            </div>
+                            <div class="resend-otp-container">
+                                <div class="otp-timer" id="otpTimer"></div>
+                                <div class="resend-otp">Resend OTP</div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-                <div class="enter-otp-section" id="otpSection" style="display: none;">
-                    <div class="enter-otp-title">Enter OTP</div>
-                    <div class="otp-container">
-                        <input type="text" class="otp-input" maxlength="1" />
-                        <input type="text" class="otp-input" maxlength="1" />
-                        <input type="text" class="otp-input" maxlength="1" />
-                        <input type="text" class="otp-input" maxlength="1" />
-                        <input type="text" class="otp-input" maxlength="1" />
-                        <input type="text" class="otp-input" maxlength="1" />
-                    </div>
-                </div>
-                <button class="otp-button" id="sendOtpBtn" disabled>Validate user</button>
+                    <button class="otp-button" id="sendOtpBtn" disabled>Send OTP</button>
+
+                </form>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 
 <script src="~/js/index.js"></script>
