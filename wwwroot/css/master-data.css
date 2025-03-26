@@ -71,54 +71,8 @@
         .level-4 { background-color: #f1ffe3; color: #5fb824; }
 
 
-        .ag-icon-menu::before{
-    content: "\ed24" !important;
-    font-family: 'remixicon' !important;
-    opacity: 1 !important;
-  visibility: visible !important;
-}
-.ag-icon-previous::before{
-    content: "\ea64" !important;
-    font-family: 'remixicon' !important;
-    background-color: white;
-    border: 0.9px solid #e7e7e7;
-    border-radius: 4px;
 
-}
 
-.ag-disabled .ag-icon-previous::before {
-    background-color: transparent !important;
-    border: none !important;
-}
-
-.ag-icon-next::before{
-    content: "\EA6e" !important;
-    font-family: 'remixicon' !important;
-    background-color: white;
-    border: 0.9px solid #e7e7e7;
-    border-radius: 4px;
-
-}
-.ag-disabled .ag-icon-next::before {
-    background-color: transparent !important;
-    border: none !important;
-}
-
-.ag-icon-asc::before {
-    content: "\ea76" !important; /* Remix Icon Unicode */
-    font-family: 'remixicon' !important;
-   
-}
-
-.ag-icon-desc::before {
-    content: "\ea4c" !important; /* Remix Icon Unicode */
-    font-family: 'remixicon' !important;
-}
-.ag-icon-small-down::before{
-    content: "\ea4e" !important;
-     font-family: 'remixicon' !important;
-
-}
 
 .calendar-image{
     width: 37px;
@@ -215,6 +169,27 @@
     font-weight: 600 !important;
     color: #E0F049 !important;
 }
+.toast{
+    background-color: #2D3438 !important;
+}
+
+.checkbox-circle{
+    color: #E0F049 !important;
+    font-size: 18px;
+}
+.toast_close{
+    color: #E0F049 !important;
+}
+.ri-checkbox-circle-fill{
+    color: #E0F049 !important;
+}
+.toast-body{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+}
 
 .cancel-button{
     width: 120px;
@@ -271,6 +246,10 @@
 }
 
 .add-level-button:disabled{
+    opacity: 0.5;
+}
+
+#zoneSidebarSaveButton:disabled{
     opacity: 0.5;
 }
 

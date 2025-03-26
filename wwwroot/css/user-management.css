@@ -11,7 +11,7 @@
 }
 
 .offcanvas{
-    width: 491px !important;
+    width: 520px !important;
     border-radius: 6px !important;
 }
 
@@ -22,11 +22,34 @@
     align-items: flex-start !important;
     box-shadow: 0px 4px 4px 0px #D8D8D840;
 
+    
 }
 
+.offcanvas-body{
+    padding: 30px 24px !important;
+}
+.offcanvas-title{
+    font-size: 18px;
+    font-weight: 600;
+    font-family:  "Inter";
+    
+}
+
+.offcanvas-subtitle{
+    font-size: 14px;
+    font-weight: 400;
+    color: #939393;
+}
+
+.form-label{
+    font-size: 16px;
+    color: #4F5375;
+    font-weight: 500;
+
+}
 
 .form-class{
-    gap: 1rem;
+    gap: 30px;
 }
 
 .user-buttons{
@@ -65,8 +88,10 @@
     border: 1px solid red !important;
 }
 
-.form-select option:first-child {
-    color: grey !important;
+.form-control{
+    font-size: 14px !important;
+    color: #a7a8b9 !important;
+    border: 1px solid #e1e2eb !important;
 }
 
 .form-control:focus, 
@@ -136,27 +161,32 @@
     }
 
     .tag {
-      background-color: #333335;
+      background-color: #F3F3F3;
       padding: 6px 12px;
-      border-radius: 20px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       font-size: 14px;
-      color: #E0F049;
+      color: #333335;
     }
 
     .tag .remove-tag {
       margin-left: 8px;
-      color: #E0F049;
+      color: #333335;
       cursor: pointer;
       font-weight: bold;
+      font-size: 20px;
     }
 
     .tag .remove-tag:hover {
-      color: #E0F049;
+      color: #333335;
     }
 .toast{
     background-color: #2D3438 !important;
+    width: 329px !important;
+    border-radius: 16px !important;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .toast-close{
@@ -178,4 +208,9 @@
     gap: 1rem;
     font-size: 16px;
     font-weight: 500;
+}
+
+.select2-dropdown {
+	border: 1px solid #e1e2eb !important;
+	box-shadow: 0px 4px 4px 0px #a5a5a540;
 }

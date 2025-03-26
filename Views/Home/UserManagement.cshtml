@@ -7,14 +7,16 @@
     <div class="user-management-container">
         <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
             <div id="saveToast" class="toast custom-toast align-items-center text-white border-0" role="alert"
-                aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
+                aria-live="assertive" aria-atomic="true" data-bs-delay="70000">
+                <div class="d-flex align-items-center gap-4">
                     <div class="toast-body">
-                        <i class="ri-checkbox-circle-fill"></i>
-                        User Details Updated Successfully
+                        <img src="~/images/Frame 8.png" />
+                        User Added Successfully
                     </div>
-                    <button type="button" class=" toast-close btn-close me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
+                    @* <button type="button" class=" toast-close btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button> *@
+                    <img src="~/images/Close affordance.png" data-bs-dismiss="toast"
+                        style="height: 24px; width: 24px;" />
                 </div>
             </div>
         </div>
@@ -49,50 +51,49 @@
         <!-- Sidebar Offcanvas -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar" aria-labelledby="addUserSidebarLabel">
             <div class="offcanvas-header p-4">
-                <div class="d-flex flex-column gap-2">
-                    <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
-                    <h5 class="offcanvas-title" id="addUserSidebarLabel">Add User</h5>
-                    <p class="m-0">Enter below details to add User</p>
+                <div class="d-flex gap-2 align-items-center">
+                    <img src="~/images/Featured icon (2).png" class="sidebar_img" alt="User Icon">
+                    <div class="d-flex flex-column">
+                        <div class="offcanvas-title" id="addUserSidebarLabel">Add User</div>
+                        <p class="m-0 offcanvas-subtitle">Enter below details to add User</p>
+                    </div>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
 
                 <form class="d-flex flex-column form-class">
-                    <div class="mb-3">
+                    <div>
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Name">
+                        <input type="text" class="form-control" placeholder="Enter">
                     </div>
-                    <div class="mb-3">
+                    <div>
                         <label class="form-label">Email ID</label>
-                        <input type="email" class="form-control" placeholder="Enter Email">
+                        <input type="email" class="form-control" placeholder="Enter">
                     </div>
-                    <div class="mb-3">
+                    <div>
                         <label class="form-label">Contact</label>
-                        <input type="contact" class="form-control" placeholder="Enter Contact Number">
+                        <input type="contact" class="form-control" placeholder="Enter">
                     </div>
-                    <div class="mb-3">
+                    <div>
                         <label class="form-label">Sector</label>
                         <select class="form-select">
-                            <option>Select Sector</option>
                             <option>SPB</option>
                             <option>IDCD</option>
                         </select>
                     </div>
-                    <div class="mb-3">
+                    <div>
                         <label class="form-label">Sub Sector</label>
                         <select class="form-select" id="subSectorSelect">
-                            <option value="">Select Sub Sector</option>
                             <option value="Industry">Industry</option>
                             <option value="Retail">Retail</option>
                             <option value="CSS">CSS</option>
                         </select>
                         <div class="tags-container" id="selectedTags"></div>
                     </div>
-                    <div class="mb-3">
+                    <div>
                         <label class="form-label">Role</label>
                         <select class="form-select">
-                            <option>Select Role</option>
                             <option>Admin</option>
                             <option>Checker</option>
                             <option>Maker</option>
@@ -105,7 +106,8 @@
             <div class="d-flex justify-content-end p-4 user-buttons">
                 <button type="button" class="btn btn-outline-dark me-2 cancel-button"
                     data-bs-dismiss="offcanvas">Cancel</button>
-                <button type="button" class="btn btn-warning  add-button" onclick="showToast()">Save</button>
+                <button type="button" class="btn btn-warning  add-button " data-bs-dismiss="offcanvas"
+                    onclick="showToast()">Add</button>
             </div>
         </div>
         <div id="myGrid" class="ag-theme-quartz"></div>
@@ -116,7 +118,6 @@
             <script>const subSectorSelect = document.getElementById('subSectorSelect');
                 const selectedTagsContainer = document.getElementById('selectedTags');
                 const selectedSubSectors = new Set();
-
                 subSectorSelect.addEventListener('change', function () {
                     const value = this.value;
                     if (value && !selectedSubSectors.has(value)) {
@@ -125,14 +126,14 @@
                         const tag = document.createElement('div');
                         tag.classList.add('tag');
                         tag.innerHTML = `
-                                      ${value}
-                                      <span class="remove-tag" data-value="${value}">&times;</span>
-                                    `;
+                                                                                                                                                                                                                                                                                                                                                                                <div>${value}</div>
+                                                                                                                                                                                                                                                                                                                    <span class="remove-tag" data-value="${value}">&times;</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                `;
 
                         selectedTagsContainer.appendChild(tag);
                     }
 
-                    this.value = ""; // Reset select
+                    this.value = "";
                 });
 
                 selectedTagsContainer.addEventListener('click', function (e) {
@@ -162,43 +163,16 @@
 
                     var columnDefs = [
                         {
-                            headerName: "Sector", field: "sector", editable: (params) => params.data.isEditing, cellEditor: "agSelectCellEditor", cellEditorParams: {
-                                values: sectors,
-                            }, filter: "agDateColumnFilter",
-                            floatingFilter: true, sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
-                        },
-                        {
-                            headerName: "Sub Sector",
-                            field: "subSector",
-                            filter: "agSetColumnFilter",
-                            floatingFilter: true,
-                            editable: (params) => params.data.isEditing,
-                            cellEditor: "agSelectCellEditor",
-                            cellEditorParams: {
-                                values: subSectorOptions,
-                            },
-                            sortable: true,
-                            filter: true,
-                            resizable: true,
-                            cellStyle: {
-                                display: "flex",
-                                alignItems: "center",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                color: "#74828F"
-                            }
-                        },
-                        {
                             headerName: "Name",
                             field: "name",
-                            sortable: true,
-                            editable: (params) => params.data.isEditing,
+                            floatingFilter: true,
+
                             filter: true,
                             resizable: true,
                             cellStyle: {
                                 display: "flex",
                                 alignItems: "center",
-                                fontSize: "14px",
+                                fontSize: "16px",
                                 fontWeight: 500,
                                 color: "#74828F"
                             },
@@ -217,11 +191,8 @@
                             valueSetter: function (params) {
                                 const newValue = params.newValue?.trim() || "";
                                 let errorMessage = "";
-
-                                // Set error message if any
                                 params.data.nameError = errorMessage;
 
-                                // Only update value if valid
                                 if (!errorMessage) {
                                     params.data.name = newValue;
                                     return true;
@@ -251,13 +222,54 @@
                                 return container;
                             }
                         }
-                        ,
+                        , {
+                            headerName: "Role",
+                            floatingFilter: true, field: "role", cellEditor: "agSelectCellEditor", cellEditorParams: {
+                                values: ["Admin", "Super Admin", "Maker", "Checker"],
+                            }, sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "16px", fontWeight: 500, color: "#74828F" }
+                        },
+                        {
+                            headerName: "Sector", field: "sector", cellEditor: "agSelectCellEditor", cellEditorParams: {
+                                values: sectors,
+                            }, filter: "agDateColumnFilter",
+                            floatingFilter: true, sortable: true, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "16px", fontWeight: 500, color: "#74828F" }
+                        },
+                        {
+                            headerName: "Sub Sector",
+                            field: "subSector",
+                            filter: "agSetColumnFilter",
+                            floatingFilter: true,
+
+                            cellEditor: "agSelectCellEditor",
+                            cellEditorParams: {
+                                values: ["Retail", "Industrial", "CSS"],
+                            },
+                            sortable: true,
+                            autoHeight: true,
+                            cellRenderer: function (params) {
+                                if (!params.data.subSector) return "";
+                                return params.data.subSector
+                                    .map(subSector => `<div>${subSector.subSector || ""}</div>`)
+                                    .join('');
+                            },
+                            filter: true,
+                            resizable: true,
+                            cellStyle: {
+                                display: "flex",
+                                alignItems: "center",
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                color: "#74828F"
+                            }
+                        },
+
                         {
                             headerName: "Email",
                             field: "email",
-                            editable: (params) => params.data.isEditing,
-                            cellEditor: "agTextCellEditor",
+                            floatingFilter: true, filter: true,
 
+                            cellEditor: "agTextCellEditor",
+                            cellStyle: { display: "flex", alignItems: "center", fontSize: "16px", fontWeight: 500, color: "#74828F" },
                             valueSetter: function (params) {
                                 params.data.email = params.newValue;
                                 if (!validateEmail(params.newValue)) {
@@ -269,58 +281,43 @@
                                 }
                                 return true;
                             },
-                            cellClassRules: {
-                                'email-error-cell': (params) => params.data?.invalidEmail === true
-                            },
                             cellRenderer: function (params) {
+                                const email = params.value;
+                                if (!email) return ''; // Handle empty values
 
-                                const container = document.createElement("div");
-                                container.style.display = "flex";
-                                container.style.alignItems = "center";
-                                container.style.gap = "8px";
+                                const [user, domain] = email.split("@@");
 
-
-                                const emailText = document.createElement("span");
-                                emailText.innerText = params.value || "";
-                                container.appendChild(emailText);
-                                if (params.data?.invalidEmail) {
-                                    const errorIcon = document.createElement("i");
-                                    errorIcon.className = "ri-error-warning-line";
-                                    errorIcon.style.color = "red";
-                                    errorIcon.style.cursor = "pointer";
-                                    errorIcon.title = params.data.emailErrorMessage;
-                                    container.appendChild(errorIcon);
+                                if (user.length <= 3) {
+                                    return `${user[0]}***@@${domain}`; // Handle short usernames
                                 }
 
-                                return container;
-                            }
+                                const maskedUser = user.slice(0, 2) + "***" + user.slice(-1);
+                                return `${maskedUser}@@${domain}`;
+                            },
                         },
                         {
                             headerName: "Contact",
                             field: "contact",
-                            editable: (params) => params.data.isEditing,
+                            floatingFilter: true, filter: true,
+                            cellStyle: { display: "flex", alignItems: "center", fontSize: "16px", fontWeight: 500, color: "#74828F" },
+
                             cellEditor: "agTextCellEditor",
                             valueSetter: function (params) {
                                 params.data.contact = params.newValue;
                                 return true;
                             },
                             cellRenderer: function (params) {
-                                const container = document.createElement("div");
-                                container.style.display = "flex";
-                                container.style.alignItems = "center";
-                                const nameText = document.createElement("span");
-                                nameText.innerText = params.value || "";
-                                container.appendChild(nameText);
-                                return container;
-                            }
+                                if (!params.value || params.value.length < 10) return "Invalid Number";
+
+                                const maskedContact =
+                                    params.value.slice(0, 4) + "********" + params.value.slice(-2);
+
+                                return maskedContact;
+                            },
                         }
                         ,
 
-                        {
-                            headerName: "Role", field: "role", cellEditor: "agSelectCellEditor", cellEditorParams: {
-                                values: ["Admin", "Super Admin", "Maker", "Checker"],
-                            }, sortable: true, editable: (params) => params.data.isEditing, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
-                        },
+
 
                         {
                             headerName: "Action",
@@ -329,43 +326,22 @@
                             resizable: true,
                             pinned: "right",
                             sortable: false,
+                            width: 120,
                             cellStyle: {
                                 display: "flex",
                                 alignItems: "center",
-                                fontSize: "14px",
-                                fontWeight: 500,
+                                fontSize: "16px",
+                                fontWeight: 600,
                                 color: "#74828F",
                                 gap: "8px",
+                                textAlign: "center"
                             },
                             cellRenderer: function (params) {
                                 const container = document.createElement("div");
 
-                                if (params.data.isEditing) {
-                                    // ✅ Save Button
-                                    const saveBtn = document.createElement("button");
-                                    saveBtn.innerHTML = `<i class="ri-check-line"></i>`;
-                                    saveBtn.className = "save-btn";
-                                    saveBtn.onclick = () => {
-                                        params.data.isEditing = false;
-                                        params.api.stopEditing();
-                                        params.api.refreshCells({ force: true });
-                                    };
-                                    container.appendChild(saveBtn);
-
-
-                                    const cancelBtn = document.createElement("button");
-                                    cancelBtn.innerHTML = `<i class="ri-close-line"></i>`;
-                                    cancelBtn.className = "cancel-btn";
-                                    cancelBtn.onclick = () => {
-                                        params.data.isEditing = false;
-                                        params.api.stopEditing(true);
-
-                                        params.api.refreshCells({ force: true });
-                                    };
-                                    container.appendChild(cancelBtn);
-                                } else {
+                                {
                                     const editBtn = document.createElement("button");
-                                    editBtn.innerHTML = `<i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span>`;
+                                    editBtn.innerHTML = `<i class="ri-pencil-line"></i> <span style="text-decoration: underline; color:#494949;font-weight:600;">Edit</span>`;
                                     editBtn.className = "edit-btn";
                                     editBtn.onclick = () => {
                                         params.data.isEditing = true;
@@ -385,12 +361,112 @@
                     ]
 
                     var rowData = [
-                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: "Retail" },
-                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: "Industry" },
-                        { name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP", subSector: "CSS" },
-                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: "Industry" },
-                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: "CSS" },
-
+                        {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] }, {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] }, {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] }, {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] }, {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] }, {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] }, {
+                            name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }]
+                        },
+                        {
+                            name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }]
+                        },
+                        {
+                            name: "Pratik Joshi", email: "PJoshi@kbl.com", contact: "+91 9876543212", role: "Admin", function: "CSS", sector: "SBP",
+                            subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }, { id: 3, subSector: "CSS" }]
+                        },
+                        { name: "Ayesha Ray", email: "Ayesharay@kbl.com", contact: "+91 9876543210", role: "Maker", function: "Retail", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
+                        { name: "Rohit Nair", email: "Rohitnair@kbl.com", contact: "+91 9876543211", role: "Checker", function: "Industry", sector: "SBP", subSector: [{ id: 1, subSector: "Retail" }, { id: 2, subSector: "Industry" }] },
 
                     ];
                     var gridOptions = {
@@ -442,7 +518,7 @@
                                 if (!customPaginationDiv) {
                                     customPaginationDiv = document.createElement("div");
                                     customPaginationDiv.id = "custom-pagination";
-                                    customPaginationDiv.style.marginRight = "auto"; // Align to the left
+                                    customPaginationDiv.style.marginRight = "auto";
                                     pageInfo.prepend(customPaginationDiv);
                                 }
                                 customPaginationDiv.innerText = customText;
