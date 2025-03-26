@@ -1,0 +1,784 @@
+﻿@model List<PinMapper.Web.ViewModel.UserViewModel>
+
+<link rel="stylesheet" href="~/css/user-management.css" asp-append-version="true" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="user-management">
+    <div class="user-management-container">
+        <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+            <div id="saveToast" class="toast custom-toast align-items-center text-white border-0" role="alert"
+                 aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="ri-checkbox-circle-fill"></i>
+                        User Details Updated Successfully
+                    </div>
+                    <button type="button" class=" toast-close btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <header>
+            <h2 class="dashboard_title">User Management</h2>
+            <div class="header-right">
+                <img src="~/images/bell with badge.png" alt="notification" class="notification_image">
+                <div class="user-info">
+                    <img src="~/images/Ellipse 269.png" alt="user">
+                    <div class="user-details">
+                        <span class="username">Ranjan PM</span>
+                        <small class="user-designation">Super Admin</small>
+                    </div>
+                    <!-- Dropdown Menu -->
+                    <div class="dropdown">
+                        <button class="dropdown_toggle" onclick="toggleDropdown()">
+                            <i class="ri-arrow-drop-down-line"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Help & Settings</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <button id="editBtn" data-bs-toggle="offcanvas" data-bs-target="#addUserSidebar">
+                <i class="ri-add-circle-line"></i>Add
+            </button>
+        </div>
+        <!-- Sidebar Offcanvas -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="addUserSidebar" aria-labelledby="addUserSidebarLabel">
+            <div class="offcanvas-header p-4">
+                <div class="d-flex flex-column gap-2">
+                    <img src="~/images/Featured icon.png" class="rounded-circle me-2 sidebar_img" alt="User Icon">
+                    <h5 class="offcanvas-title" id="addUserSidebarLabel">Add User</h5>
+                    <p class="m-0">Enter below details to add User</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+
+                <form class="d-flex flex-column form-class" id="addUser" asp-action="CreateUser" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="Name" class="form-control" placeholder="Enter Name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email ID</label>
+                        <input type="email" name="Email" class="form-control" placeholder="Enter Email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contact</label>
+                        <input type="contact" name="Contact" class="form-control" placeholder="Enter Contact Number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sector</label>
+                        <select id="sectorDropdown" class="form-select" name="SectorId">
+                            <option value="">Select Sector</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sub Sector</label>
+                        <select id="subSectorDropdown" name="SubSectorIds" multiple class="form-select">
+                            <option value="">Select Sub Sector</option>
+                        </select>
+                        <div class="tags-container" id="selectedTags"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <select id="roleDropdown" class="form-select" name="RoleId">
+                            <option value="">Select Role</option>
+                        </select>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="d-flex justify-content-end p-4 user-buttons">
+                <button type="button" class="btn btn-outline-dark me-2 cancel-button"
+                        data-bs-dismiss="offcanvas">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-warning  add-button" form="addUser">Save</button>
+            </div>
+        </div>
+        <div id="myGrid" class="ag-theme-alpine"></div>
+        @section Scripts
+        {
+            <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.0/dist/ag-grid-community.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+
+                             const subSectorSelect = document.getElementById('subSectorDropdown');
+                const selectedTagsContainer = document.getElementById('selectedTags');
+                const selectedSubSectors = new Set();
+
+                subSectorSelect.addEventListener('change', function () {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const value = selectedOption.value;
+                    const name = selectedOption.textContent;
+
+                    // Skip if already selected or invalid
+                    if (!value || selectedSubSectors.has(value)) return;
+
+                    selectedSubSectors.add(value);
+
+                    // ✅ Set the option as selected so it posts via form
+                    selectedOption.selected = true;
+
+                    // Show tag
+                    const tag = document.createElement('div');
+                    tag.classList.add('tag');
+                    tag.innerHTML = `
+                        ${name}
+                        <span class="remove-tag" data-value="${value}">&times;</span>
+                    `;
+                    selectedTagsContainer.appendChild(tag);
+
+                    // Reset dropdown to blank
+                    this.selectedIndex = 0;
+                });
+
+                // Remove tag and unselect the dropdown option
+                selectedTagsContainer.addEventListener('click', function (e) {
+                    if (!e.target.classList.contains('remove-tag')) return;
+
+                    const value = e.target.getAttribute('data-value');
+                    selectedSubSectors.delete(value);
+
+                    // Remove visual tag
+                    e.target.parentElement.remove();
+
+                    // ✅ Unselect the option in the dropdown
+                    for (const option of subSectorSelect.options) {
+                        if (option.value === value) {
+                            option.selected = false;
+                            break;
+                        }
+                    }
+                });
+
+
+                                
+                                </script>
+
+
+            <script>
+
+                    let roles = [];
+                    let sectors = [];
+                    let allSubSectors = [];
+
+
+
+                     document.addEventListener("DOMContentLoaded", function () {
+
+                     // var gridDiv = document.querySelector("#myGrid");
+                     // new agGrid.Grid(gridDiv, gridOptions);
+
+                         var userData = @Html.Raw(Json.Serialize(Model));
+                         loadRoles();
+                         console.log(userData);
+                         loadSectorSubsector();
+                         loadSectors();
+
+
+
+                     document.getElementById("sectorDropdown").addEventListener("change", function () {
+                         let sectorId = this.value;
+                         if (sectorId) {
+                             loadSubSectors(sectorId); // Load sub-sectors based on selected sector
+                         } else {
+                             clearSubSectors(); // Clear sub-sector dropdown if no sector is selected
+                         }
+                     });
+
+
+
+                     });
+
+                                 
+
+                 function showToast() {
+
+                  
+
+                         let userData = {
+                         Name: document.querySelector("input[placeholder='Enter Name']").value.trim(),
+                         Email: document.querySelector("input[placeholder='Enter Email']").value.trim(),
+                         Contact: document.querySelector("input[placeholder='Enter Contact Number']").value.trim() || null,
+                         SectorId: document.getElementById("sectorDropdown").value,
+                         //SubSectorId: document.getElementById("subSectorDropdown").value,
+                         //SubSectorId: selectedSubSectors,
+                         SubSectorIds: Array.from(selectedSubSectors),
+                         RoleId: document.getElementById("roleDropdown").value
+                         };
+
+                         console.log("After clicking save");
+                         console.log(userData);
+
+                     if (!userData.Name || !userData.Email || userData.SectorId === 0 || userData.SubSectorId === 0 || userData.RoleId === 0) {
+                         alert("Please fill in all required fields.");
+                         return;
+                     }
+                      debugger;
+                                     fetch("/User/CreateUser", {  // Adjust API URL if needed
+                         method: "POST",
+                         headers: {
+                             "Content-Type": "application/json"
+                         },
+                         body: JSON.stringify(userData)
+                     })
+                     .then(response => {
+                         if (!response.ok) {
+                             return response.json().then(err => {
+                                 throw new Error(err.message || "HTTP error! Status: " + response.status);
+                             });
+                         }
+                         return response.json();
+                     })
+                     .then(data => {
+                         console.log("Response:", data);
+                             const toastElement = document.getElementById("saveToast");
+                             const toast = new bootstrap.Toast(toastElement);
+                             toast.show();
+                     })
+                     .catch(error => {
+                         console.error("Error:", error);
+                         alert(error.message || "An error occurred while adding the user.");
+                     });
+                 };
+
+
+
+
+
+                     function validateEmail(email) {
+                         const emailRegex = /^[^\s@@]+@@[^\=s@@]+\.[^\s@@]+$/;
+                         return emailRegex.test(email);
+                     }
+
+                     const dropzone = document.getElementById("dropzone");
+                     const fileInput = document.getElementById("fileInput");
+                     const uploadedImage = document.getElementById("uploadedImage");
+
+                     dropzone.addEventListener("click", () => {
+                         fileInput.value = "";
+                         fileInput.click();
+                     });
+                     fileInput.addEventListener("change", (event) => {
+                         if (event.target.files.length > 0) {
+                             handleFileUpload(event.target.files[0]);
+                         }
+                     });
+                     dropzone.addEventListener("dragover", (event) => {
+                         event.preventDefault();
+                         dropzone.classList.add("border-primary");
+                     });
+
+                     dropzone.addEventListener("dragleave", () => {
+                         dropzone.classList.remove("border-primary");
+                     });
+
+                     dropzone.addEventListener("drop", (event) => {
+                         event.preventDefault();
+                         dropzone.classList.remove("border-primary");
+
+                         if (event.dataTransfer.files.length > 0) {
+                             handleFileUpload(event.dataTransfer.files[0]);
+                         }
+                     });
+
+
+
+                     function handleFileUpload(file) {
+                         if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+                             const reader = new FileReader();
+                             reader.onload = function (e) {
+                                 uploadedImage.src = e.target.result;
+                             };
+                             reader.readAsDataURL(file);
+
+                             fileInput.value = "";
+                         } else {
+                             alert("Only PNG and JPG images are allowed!");
+                         }
+                     }
+
+
+
+
+                    function initializeGrid()
+                    {
+                              console.log("came here")
+
+
+                     var columnDefs =
+                    [
+
+                        {
+                         headerName: "Sector",
+                         field: "sector",
+                         width: 180,
+                         editable: (params) => params.data.isEditing,
+                         cellEditor: "agSelectCellEditor",
+                         cellEditorParams: {
+                             values: sectors.map((sector) => sector.name) || [],
+                         },
+                         sortable: true,
+                         filter: true,
+                         resizable: true,
+                         cellStyle: {
+                             display: "flex",
+                             alignItems: "center",
+                             fontSize: "14px",
+                             fontWeight: 500,
+                             color: "#74828F",
+                         },
+                         valueSetter: function (params) {
+                             const oldValue = params.data.sector;
+                             const newValue = params.newValue;
+
+                             console.log("Sector Old Value:", oldValue, "Sector New Value:", newValue);
+
+                             if (oldValue !== newValue) {
+                                 params.data.sector = newValue;
+                                 params.data.subSector = null; // Reset Subsector when Sector changes
+
+                                 // Immediately update the grid with the new sector and reset subsector
+                                 params.api.refreshCells({
+                                     rowNodes: [params.node],
+                                     force: true,
+                                     columns: ["sector", "subSector"], // Refresh both sector and subsector columns
+                                 });
+                             }
+                             return true;
+                         },
+                     },
+
+
+                                                    {
+                    headerName: "Sub Sectors",
+                    field: "subSector",
+                    width: 250,
+                    sortable: true,
+                    filter: true,
+                    resizable: true,
+                    autoHeight:true,
+                    editable: false,
+                  cellRenderer: function (params) {
+                                if (!params.data.subSector) return "";
+                                return params.data.subSector
+                                    .map(subSector => `<div>${subSector.name || ""}</div>`)
+                                    .join('');
+                            },
+                    cellStyle: {
+                        display: "flex",
+                        flexDirection: "column",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        color: "#74828F"
+                    }
+                },
+                                  {
+                                      headerName: "Name",
+                                      field: "name",
+                                      width: 250,
+                                      sortable: true,
+                                      editable: (params) => params.data.isEditing,
+                                      filter: true,
+                                      resizable: true,
+                                      cellStyle: {
+                                          display: "flex",
+                                          alignItems: "center",
+                                          fontSize: "14px",
+                                          fontWeight: 500,
+                                          color: "#74828F"
+                                      },
+                                      valueSetter: function (params) {
+                                          params.data.name = params.newValue;
+                                          const nameRegex = /^[a-zA-Z0-9 ]{1,30}$/;
+                                          if (!newValue) {
+                                              params.data.invalidName = true;
+                                              params.data.nameErrorMessage = "Name cannot be empty";
+                                          } else if (!nameRegex.test(newValue)) {
+                                              params.data.invalidName = true;
+                                              params.data.nameErrorMessage = "Only alphanumeric characters allowed (max 30 characters).";
+                                          }
+                                          return true;
+                                      },
+                                      valueSetter: function (params) {
+                                          const newValue = params.newValue?.trim() || "";
+                                          let errorMessage = "";
+
+                                          // Set error message if any
+                                          params.data.nameError = errorMessage;
+
+                                          // Only update value if valid
+                                          if (!errorMessage) {
+                                              params.data.name = newValue;
+                                              return true;
+                                          }
+
+                                          return false;
+                                      },
+                                      cellRenderer: function (params) {
+                                          const container = document.createElement("div");
+                                          container.style.display = "flex";
+                                          container.style.alignItems = "center";
+                                          container.style.gap = "6px";
+
+                                          const nameText = document.createElement("span");
+                                          nameText.innerText = params.value || "";
+                                          container.appendChild(nameText);
+
+                                          if (params.data?.nameError) {
+                                              const errorIcon = document.createElement("i");
+                                              errorIcon.className = "ri-error-warning-line";
+                                              errorIcon.style.color = "red";
+                                              errorIcon.style.cursor = "pointer";
+                                              errorIcon.title = errorMessage;
+                                              container.appendChild(errorIcon);
+                                          }
+
+                                          return container;
+                                      }
+                                  }
+                                  ,
+                                  {
+                                      headerName: "Email",
+                                      field: "email",
+                                      editable: (params) => params.data.isEditing,
+                                      cellEditor: "agTextCellEditor",
+
+                                      valueSetter: function (params) {
+                                          params.data.email = params.newValue;
+                                          if (!validateEmail(params.newValue)) {
+                                              params.data.invalidEmail = true;
+                                              params.data.emailErrorMessage = "Invalid Email Format!";
+                                          } else {
+                                              params.data.invalidEmail = false;
+                                              params.data.emailErrorMessage = "";
+                                          }
+                                          return true;
+                                      },
+                                      cellClassRules: {
+                                          'email-error-cell': (params) => params.data?.invalidEmail === true
+                                      },
+                                      cellRenderer: function (params) {
+                                          console.log("Is Editing (inside cellRenderer):", params.data?.isEditing);
+
+                                          const container = document.createElement("div");
+                                          container.style.display = "flex";
+                                          container.style.alignItems = "center";
+                                          container.style.gap = "8px";
+
+
+                                          const emailText = document.createElement("span");
+                                          emailText.innerText = params.value || "";
+                                          container.appendChild(emailText);
+                                          if (params.data?.invalidEmail) {
+                                              const errorIcon = document.createElement("i");
+                                              errorIcon.className = "ri-error-warning-line";
+                                              errorIcon.style.color = "red";
+                                              errorIcon.style.cursor = "pointer";
+                                              errorIcon.title = params.data.emailErrorMessage;
+                                              container.appendChild(errorIcon);
+                                          }
+
+                                          return container;
+                                      }
+                                  },
+                                  {
+                                      headerName: "Contact",
+                                      field: "contact",
+                                      editable: (params) => params.data.isEditing,
+                                      cellEditor: "agTextCellEditor",
+                                      valueSetter: function (params) {
+                                          params.data.contact = params.newValue;
+                                          return true;
+                                      },
+                                      cellRenderer: function (params) {
+                                          const container = document.createElement("div");
+                                          container.style.display = "flex";
+                                          container.style.alignItems = "center";
+                                          const nameText = document.createElement("span");
+                                          nameText.innerText = params.value || "";
+                                          container.appendChild(nameText);
+                                          return container;
+                                      }
+                                  }
+                                  ,
+
+                                  {
+                                      headerName: "Role", field: "role", cellEditor: "agSelectCellEditor", cellEditorParams: {
+                                          values: ["Admin", "Super Admin", "Maker", "Checker"],
+                                      }, width: 180, sortable: true, editable: (params) => params.data.isEditing, filter: true, resizable: true, cellStyle: { display: "flex", alignItems: "center", fontSize: "14px", fontWeight: 500, color: "#74828F" }
+                                  },
+
+                                  {
+                                      headerName: "Action",
+                                      field: "action",
+                                      filter: true,
+                                      width: 100,
+                                      resizable: true,
+                                      pinned: "right",
+                                      sortable: false,
+                                      cellStyle: {
+                                          display: "flex",
+                                          alignItems: "center",
+                                          fontSize: "14px",
+                                          fontWeight: 500,
+                                          color: "#74828F",
+                                          gap: "8px",
+                                      },
+                                      cellRenderer: function (params)
+                                      {
+                                              const container = document.createElement("div");
+
+                                              if (params.data.isEditing)
+
+                                              {
+                                                  const saveBtn = document.createElement("button");
+                                                  saveBtn.innerHTML = `<i class="ri-check-line"></i>`;
+                                                  saveBtn.className = "save-btn";
+                                                  saveBtn.onclick = () => {
+                                                      params.data.isEditing = false;
+                                                      params.api.stopEditing();
+                                                      params.api.refreshCells({ force: true });
+                                                  };
+                                                  container.appendChild(saveBtn);
+
+                                                  const cancelBtn = document.createElement("button");
+                                                  cancelBtn.innerHTML = `<i class="ri-close-line"></i>`;
+                                                  cancelBtn.className = "cancel-btn";
+                                                  cancelBtn.onclick = () => {
+                                                      console.log("Cancelling...");
+                                                      params.data.isEditing = false;
+                                                      params.api.stopEditing(true);
+                                                      params.api.refreshCells({ force: true });
+                                                  };
+                                                  container.appendChild(cancelBtn);
+                                              }
+                                              else
+                                              {
+                                              const editBtn = document.createElement("button");
+                                              editBtn.innerHTML = `<i class="ri-pencil-line"></i> <span style="text-decoration: underline;">Edit</span>`;
+                                              editBtn.className = "edit-btn";
+                                              editBtn.onclick = () => {
+                                                  params.data.isEditing = true;
+                                                  params.api.refreshCells({ force: true });
+                                                  params.api.startEditingCell({
+                                                      rowIndex: params.rowIndex,
+                                                      colKey: "name"
+                                                  });
+                                              };
+                                              container.appendChild(editBtn);
+                                          }
+
+                                          return container;
+                                      }
+                                  }
+
+                ]
+                                var userData = @Html.Raw(Json.Serialize(Model));
+                                 var rowData = userData;
+
+                const onCellValueChanged = (params) => {
+                  console.log("Updated Sector:", params.data.sector);
+                };
+
+                              var gridOptions =
+                              {
+                                  columnDefs: columnDefs,
+                                  rowData: rowData,
+                                  pagination: true,
+                                  paginationPageSize: 20,
+                                  domLayout: 'autoHeight',
+                                  editType: "fullRow",
+                                  rowHeight: 40,
+                                  onGridReady: function (params) {
+                                      params.api.sizeColumnsToFit();
+                                  },
+                                  onPaginationChanged: function () {
+                                      updatePaginationText();
+                                  },
+                                  onCellEditingStopped: (event) => {
+                                      event.data.isEditing = false;
+                                      event.api.refreshCells({ force: true });
+                                      const colId = event.column.getColId();
+                                      if (["name", "contact", "location", "email"].includes(colId)) {
+                                          console.log(`Focus OUT (editing stopped) on column: ${colId}`);
+                                      }
+                                  },
+                                  onCellFocused: (event) => {
+                                      if (event.column) {
+                                          const colId = event.column.getColId();
+                                          if (["name", "contact", "email"].includes(colId)) {
+                                              console.log(`Focus IN on column: ${colId}`);
+                                          }
+                                      }
+                                  }
+                              };
+                              var gridDiv = document.querySelector("#myGrid");
+                              new agGrid.Grid(gridDiv, gridOptions);
+
+                              function updatePaginationText() {
+                                  setTimeout(() => {
+                                      const pageInfo = document.querySelector(".ag-paging-panel");
+                                      if (pageInfo) {
+                                          const currentPageSize = gridOptions.api.paginationGetPageSize();
+                                          const currentPageIndex = gridOptions.api.paginationGetCurrentPage();
+                                          const totalRows = gridOptions.api.paginationGetRowCount();
+                                          const startRow = currentPageIndex * currentPageSize + 1;
+                                          let endRow = (currentPageIndex + 1) * currentPageSize;
+                                          if (endRow > totalRows) endRow = totalRows;
+                                          const rowsThisPage = endRow - startRow + 1;
+                                          const customText = `Showing ${rowsThisPage} data of ${totalRows} entries`;
+
+                                          let customPaginationDiv = document.querySelector("#custom-pagination");
+                                          if (!customPaginationDiv) {
+                                              customPaginationDiv = document.createElement("div");
+                                              customPaginationDiv.id = "custom-pagination";
+                                              customPaginationDiv.style.marginRight = "auto"; // Align to the left
+                                              pageInfo.prepend(customPaginationDiv);
+                                          }
+                                          customPaginationDiv.innerText = customText;
+                                      }
+                                  }, 100);
+                              }
+                          }
+                function loadSectors()
+                {
+                         fetch('/User/GetSector')
+                             .then(response => response.json())
+                             .then(data => {
+                                     console.log("before Sectors Loaded:");
+                                    sectors = data || [];
+                                    initializeGrid();
+                                 let sectorDropdown = document.getElementById("sectorDropdown");
+                                     sectorDropdown.innerHTML = '<option value="">Select Sector</option>';
+
+                                     sectors.forEach(sector => {
+                                         sectorDropdown.innerHTML += `<option value="${sector.id}">${sector.name}</option>`;
+                                     });
+                             })
+                                 .catch(error => console.error("Error loading sectors:", error));
+                }
+                     function getSubSectorNames(sectorName) {
+                         if (!sectorName) return [];
+                         const selectedSector = sectors.find((sector) => sector.name === sectorName);
+                         if (!selectedSector) return [];
+                         const subSectors = allSubSectors.filter((subSector) => subSector.sectorId === selectedSector.id);
+                         return subSectors.map((subSector) => subSector.name);
+                     }
+
+                     function loadRoles() {
+                         fetch('/User/GetRoles')
+                             .then(response => response.json())
+                             .then(data => {
+                                 roles = data || []; // Store role data
+                                 console.log("Roles Loaded:", roles);
+
+                                 let roleDropdown = document.getElementById("roleDropdown");
+                                 roleDropdown.innerHTML = '<option value="">Select Role</option>';
+
+                                 roles.forEach(role => {
+                                     roleDropdown.innerHTML += `<option value="${role.id}">${role.name}</option>`;
+                                 });
+                             })
+                             .catch(error => console.error("Error loading roles:", error));
+                     }
+
+                     function getRoleNames() {
+                         return roles.map((role) => role.name);
+                     }
+                     function loadSubSectors(sectorId) {
+                         fetch(`/User/GetSubSectors?sectorId=${sectorId}`)
+                             .then(response => response.json())
+                              .then(data => {
+                                     console.log(`Sub-Sectors for ${sectorId}:`, data);
+
+                                     // Extract actual sub-sector values
+                                     let subSectors = data || [];
+
+                                     let subSectorDropdown = document.getElementById("subSectorDropdown");
+                                     subSectorDropdown.innerHTML = '<option value="">Select Sub Sector</option>';
+
+                                     subSectors.forEach(subSector => {
+                                         subSectorDropdown.innerHTML += `<option value="${subSector.id}">${subSector.name}</option>`;
+                                     });
+                                 })
+                             .then(data => {
+                                 allSubSectors = allSubSectors.filter(sub => sub.sectorId !== Number(sectorId)).concat(data); //Store all subsectors
+                                 console.log(`Sub-Sectors for ${sectorId}:`, data);
+                                 // ... (rest of the loadSubSectors function)
+                             })
+                             .catch(error => console.error("Error loading sub-sectors:", error));
+                     }
+
+                     function clearSubSectors() {
+                         let subSectorDropdown = document.getElementById("subSectorDropdown");
+                         subSectorDropdown.innerHTML = '<option value="">Select Sub Sector</option>';
+                     }
+
+                     function loadSectorSubsector() {
+                         fetch('/User/GetSectorsWithSubSectors') // API endpoint to get sectors
+                             .then(response => response.json())
+                             .then(data => {
+                                 console.log("loadSectorSubsector:", data);
+                             })
+                             .catch(error => console.error("Error loadSectorSubsector:", error));
+                     }
+
+
+                     document.querySelector(".add-button").addEventListener("click", async function ()
+                     {
+                         let userData = {
+                             Name: document.querySelector("input[placeholder='Enter Name']").value.trim(),
+                             Email: document.querySelector("input[placeholder='Enter Email']").value.trim(),
+                             Contact: document.querySelector("input[placeholder='Enter Contact Number']").value.trim() || null, // Set to null if empty
+                             SectorId: document.getElementById("sectorDropdown").value,
+                             SubSectorId: document.getElementById("subSectorDropdown").value,
+                             RoleId: document.querySelector("roleDropDown").value
+                         };
+
+                         // Validate required fields
+                         if (!userData.Name || !userData.Email || !userData.SectorId || !userData.SubSectorId || !userData.Role) {
+                             alert("Name, Email, Sector, Sub Sector, and Role are required fields.");
+                             return;
+                         }
+
+                         try {
+                             let response = await fetch("/User/CreateUser", {
+                                 method: "POST",
+                                 headers: { "Content-Type": "application/json" },
+                                 body: JSON.stringify(userData)
+                             });
+
+                             let result = await response.json();
+
+                             if (response.ok) {
+                                 alert(result.message);
+                                 location.reload(); // Refresh or update UI
+                             } else {
+                                 alert("Error: " + result.message);
+                             }
+                         } catch (error) {
+                             console.error("Error:", error);
+                             alert("Something went wrong!");
+                         }
+                     });
+
+
+
+
+
+
+            </script>
+        }
+
+    </div>
+</div>

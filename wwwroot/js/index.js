@@ -260,9 +260,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             otpTimerDisplay.textContent = `Time left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-            // if (--timer < 0) {
-            //     clearInterval(otpTimerInterval);
-            // }
+             if (--timer < 0) {
+                 clearInterval(otpTimerInterval);
+             }
         }, 1000);
     }
 
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (sendOtpBtn.textContent === "Send OTP") {
 
             try {
-                const response = await fetch("your-api-endpoint", {
+                const response = await fetch("/home/Login", {
                     method: "POST",
                     body: JSON.stringify({
                         email: emailInput.value,
@@ -298,8 +298,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     }),
                     headers: { "Content-Type": "application/json" }
                 });
-
-                if (response.status === 200) {
+                debugger;
+                if (response.status == 200) {
                     
                  inputContainer.style.display = "none"; 
                  pass.style.display = "none";
