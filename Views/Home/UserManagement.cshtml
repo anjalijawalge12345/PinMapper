@@ -68,12 +68,12 @@
                         <input type="text" class="form-control" placeholder="Enter">
                     </div>
                     <div>
-                        <label class="form-label">Email ID</label>
-                        <input type="email" class="form-control" placeholder="Enter">
-                    </div>
-                    <div>
-                        <label class="form-label">Contact</label>
-                        <input type="contact" class="form-control" placeholder="Enter">
+                        <label class="form-label">Role</label>
+                        <select class="form-select">
+                            <option>Admin</option>
+                            <option>Checker</option>
+                            <option>Maker</option>
+                        </select>
                     </div>
                     <div>
                         <label class="form-label">Sector</label>
@@ -92,13 +92,15 @@
                         <div class="tags-container" id="selectedTags"></div>
                     </div>
                     <div>
-                        <label class="form-label">Role</label>
-                        <select class="form-select">
-                            <option>Admin</option>
-                            <option>Checker</option>
-                            <option>Maker</option>
-                        </select>
+                        <label class="form-label">Email ID</label>
+                        <input type="email" class="form-control" placeholder="Enter">
                     </div>
+                    <div>
+                        <label class="form-label">Contact</label>
+                        <input type="contact" class="form-control" placeholder="Enter">
+                    </div>
+
+
                 </form>
 
 
@@ -126,9 +128,9 @@
                         const tag = document.createElement('div');
                         tag.classList.add('tag');
                         tag.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                <div>${value}</div>
-                                                                                                                                                                                                                                                                                                                    <span class="remove-tag" data-value="${value}">&times;</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                                                                                                                                        <div>${value}</div>
+                                                                                                                                                                                                                                                                                                                                                            <span class="remove-tag" data-value="${value}">&times;</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        `;
 
                         selectedTagsContainer.appendChild(tag);
                     }
@@ -327,9 +329,11 @@
                             pinned: "right",
                             sortable: false,
                             width: 120,
+                            headerClass: "centered-header",
                             cellStyle: {
                                 display: "flex",
                                 alignItems: "center",
+                                justifyContent: "center",
                                 fontSize: "16px",
                                 fontWeight: 600,
                                 color: "#74828F",
@@ -341,7 +345,7 @@
 
                                 {
                                     const editBtn = document.createElement("button");
-                                    editBtn.innerHTML = `<i class="ri-pencil-line"></i> <span style="text-decoration: underline; color:#494949;font-weight:600;">Edit</span>`;
+                                    editBtn.innerHTML = `<i class="ri-pencil-line" style="color: #1e1e1e;"></i> <span style="text-decoration: underline;text-underline-offset: 5px; color:#494949;font-weight:600;">Edit</span>`;
                                     editBtn.className = "edit-btn";
                                     editBtn.onclick = () => {
                                         params.data.isEditing = true;
