@@ -3,10 +3,12 @@
 
 body {
 	margin: 0;
+	font-family:  "Inter";
 }
 
 .body-container {
 	padding-left: 250px;
+	font-family:  "Inter";
 }
 
 /* .container {
@@ -82,7 +84,6 @@ letter-spacing: -0.3px;
 .login-logo {
 	display: flex;
 	justify-content: center;
-    width: 71%;
 }
 
 .logo-image {
@@ -96,13 +97,13 @@ letter-spacing: -0.3px;
 	/* align-items: end; */
 	/* justify-content: flex-end; */
 	/* align-items: end; */
-	width: 40%;
+	padding-right: 150px;
 }
 
 .login-subtext {
 	font-size: 16px;
 	font-weight: 500;
-	color: #c4c4c4;
+	color: #8c8c8c;
 	font-family:  "Inter";
 }
 
@@ -111,7 +112,7 @@ letter-spacing: -0.3px;
 	border-radius: 8px;
 	padding: 10px;
 	display: flex;
-	width: 419px;
+	width: 485px;
 	align-items: center;
 }
 .input-group i {
@@ -131,19 +132,19 @@ letter-spacing: -0.3px;
 	font-size: 16px;
 	font-weight: 600;
 	outline: none;
-	width: 419px;
+	width: 485px;
 	height: 30px;
 	color: white;
 }
 
 .otp-button {
-	width: 440px;
-	height: 44px;
+	width: 505px;
+	height: 56px;
 	border-radius: 8px;
 	border: none;
 	background: #e0f049;
-	font-size: 16px;
-	font-weight: 600;
+	font-size: 20px;
+	font-weight: 700;
 	cursor: pointer;
 }
 
@@ -156,7 +157,7 @@ letter-spacing: -0.3px;
 .otp-container {
 	display: flex;
 	justify-content: start;
-	gap: 10px;
+	gap: 17px;
 }
 .no-gap {
 	gap:0px !important; /* Remove gap when button text is "Login" */
@@ -168,8 +169,8 @@ letter-spacing: -0.3px;
 }
 
 .otp-input {
-	width: 60px;
-	height: 60px;
+	width: 70px;
+	height: 69px;
 	font-size: 32px;
 	text-align: center;
 	border: 1px solid #e0f049;
@@ -247,7 +248,7 @@ letter-spacing: -0.3px;
 }
 
 .resend-otp-container{
-	width: 419px;
+	width: 505px;
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 54px;
@@ -257,4 +258,14 @@ letter-spacing: -0.3px;
 	color: #E0F049;
 	text-decoration: underline;
 	cursor: pointer;
+}
+.login-header-container{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.login-input::placeholder,.password-input::placeholder{
+	font-size: 18px;
+	font-weight: 700;
 }
