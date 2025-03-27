@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PinMapper.Web.Repository;
 using PinMapper.Web.ViewModel;
+using PinMapper.Web.Mappers;
+using PinMapper.Web.Models;
 
 namespace PinMapper.Web.Controllers
 {
@@ -47,6 +49,7 @@ namespace PinMapper.Web.Controllers
 
         public async Task<IActionResult> CreateUser(CreateUserViewModel userData) // Receive as form parameters
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -58,11 +61,12 @@ namespace PinMapper.Web.Controllers
                 return BadRequest(new { message = "Email already exists." });
             }
 
-            var user = userData.ToUserEntity(); // ✅ Use the extension method to map
+            var user = userData.ToUserEntity(); 
 
             await _userRepo.CreateUser(user);
 
-            return Ok(new { message = "User created successfully.", userId = user.Id });
+            TempData["SuccessMessage"] = "User created successfully!";
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet]

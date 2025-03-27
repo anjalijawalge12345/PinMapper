@@ -1,4 +1,5 @@
-﻿using PinMapper.Web.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PinMapper.Web.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace PinMapper.Web.ViewModel
@@ -23,35 +24,5 @@ namespace PinMapper.Web.ViewModel
         [Required(ErrorMessage = "RoleId is required.")]
         public int RoleId { get; set; }
 
-    }
-
-    public static class UserExtensions
-    {
-        public static User ToUserEntity(this CreateUserViewModel model)
-        {
-            var userId = Guid.NewGuid(); // Generate new User ID here to use in mappings
-
-            var user = new User
-            {
-                Id = userId,
-                Name = model.Name,
-                Email = model.Email,
-                ContactNumber = model.Contact ?? string.Empty,
-                SectorHierarchyId = model.SectorId,
-                RoleId = model.RoleId,
-                Status = true,
-                CreatedDt = DateTime.UtcNow,
-                CreatedBy = "system",
-                UpdatedDt = DateTime.UtcNow,
-                UpdatedBy = "system",
-                UserSubSectorMappings = model.SubSectorIds?.Select(subSectorId => new UserSubSectorMapping
-                {
-                    UserId = userId,
-                    SectorHierarchyId = subSectorId
-                }).ToList() ?? new List<UserSubSectorMapping>()
-            };
-
-            return user;
-        }
     }
 }
