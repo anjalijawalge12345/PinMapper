@@ -192,6 +192,17 @@
             // Add remove functionality
             container.querySelector('.remove-btn').addEventListener('click', () => {
                 container.remove();
+                fieldCount--;
+                console.log("remove", fieldCount)
+                if (fieldCount < 10) {
+                    addButton.disabled = false;
+                    errorDiv.style.display = "none";
+                }
+
+                // Disable Save button if no fields exist
+                if (fieldCount === 0) {
+                    zoneSidebarSaveButton.disabled = true;
+                }
             });
         });
     });
